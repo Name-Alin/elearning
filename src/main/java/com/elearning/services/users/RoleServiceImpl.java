@@ -1,9 +1,8 @@
 package com.elearning.services.users;
 
-import com.elearning.domain.authentication.Role;
+import com.elearning.model.authentication.Role;
 import com.elearning.repositories.RoleRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashSet;
 import java.util.Set;

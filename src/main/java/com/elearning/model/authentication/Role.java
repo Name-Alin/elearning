@@ -1,4 +1,4 @@
-package com.elearning.domain.authentication;
+package com.elearning.model.authentication;
 
 import javax.persistence.*;
 

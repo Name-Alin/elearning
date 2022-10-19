@@ -1,7 +1,6 @@
 package com.elearning.services.users;
 
-import com.elearning.domain.authentication.User;
-import com.elearning.repositories.RoleRepository;
+import com.elearning.model.authentication.User;
 import com.elearning.repositories.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

@@ -1,8 +1,8 @@
 package com.elearning.services.authentication;
 
 
-import com.elearning.domain.authentication.Role;
-import com.elearning.domain.authentication.User;
+import com.elearning.model.authentication.Role;
+import com.elearning.model.authentication.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

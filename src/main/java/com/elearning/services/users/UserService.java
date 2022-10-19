@@ -1,6 +1,6 @@
 package com.elearning.services.users;
 
-import com.elearning.domain.authentication.User;
+import com.elearning.model.authentication.User;
 
 public interface UserService {
 
