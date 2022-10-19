@@ -3,12 +3,14 @@ package com.elearning.services.authentication;
 
 import com.elearning.domain.authentication.Role;
 import com.elearning.domain.authentication.User;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.*;
 
+@Slf4j
 public class MyUserDetails implements UserDetails {
 
     private Optional<User> user;
@@ -21,7 +23,8 @@ public class MyUserDetails implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<Role> roles = user.get().getRoles();
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        for(Role role : roles){
+        for (Role role : roles) {
+            log.info("Role name here: {}", role.getName());
             authorities.add(new SimpleGrantedAuthority(role.getName()));
         }
         return authorities;

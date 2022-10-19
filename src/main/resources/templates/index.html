@@ -1,18 +1,51 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+>
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"
+          th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}">
+
+    <script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous" th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
 </head>
 <body>
-<span sec:authentication="name">Username</span>
-<span sec:authentication="principal.authorities">Roles</span>
-
+<div sec:authorize="isAuthenticated()">
+    Welcome <b><span sec:authentication="name">Username</span></b>
+    &nbsp;
+    <i><span sec:authentication="principal.authorities">Roles</span></i>
+</div>
 <form th:action="@{/logout}" method="post">
     <input type="submit" value="Logout" />
 </form>
+
+<div class="page-title">E-Learning platform Demo</div>
+<div class="demo-container">
+    <h3>Demo content</h3>
+    <ul sec:authorize="hasAnyAuthority('administrator', 'supervisor')">
+        <li sec:authorize="hasAuthority('administrator')" th:href="@{/userform}">Admin pages</li>
+        <li sec:authorize="hasAuthority('supervisor')">Reports</li>
+    </ul>
+</div>
+
+
+<div sec:authorize="hasAuthority('ROLE_ADMIN')">
+    <a th:href="@{/userform}">Create New Product</a>
+</div>
+
+<div>
+    <a th:href="@{/userform}">Create something Product</a>
+</div>
 
 </body>
 </html>
