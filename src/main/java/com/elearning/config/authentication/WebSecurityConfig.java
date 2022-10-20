@@ -32,7 +32,7 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers("/userform").hasRole("ADMIN")
 //                .and().authorizeRequests().antMatchers("/").authenticated()
-//                .and().authorizeRequests().anyRequest().authenticated()
+                .and().authorizeRequests().anyRequest().authenticated()
                 .and().formLogin().permitAll()
 
                 .and().logout().permitAll();

@@ -22,9 +22,31 @@
     <input type="submit" value="Add New User">
     <br>
     <label>Roles:</label>
-<!--    <input type="checkbox" th:field="*{roles}" id="roles" >-->
+    <select id="roles" th:field="*{roles}" multiple="multiple">
+        <option th:each="role : ${allRoles}"
+                th:value="${role.id}" th:text="${role.name}"></option>
+
+    </select>
 </form>
 
+
+    <table class="table table-striped table-primary">
+    <thead>
+    <tr>
+        <td><b>Id</b> </td>
+        <td><b>Username</b> </td>
+        <td><b>Role</b> </td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user1: ${allUsers}">
+        <td th:text="${user1.id}">1</td>
+        <td th:text="${user1.username}" />
+        <td th:text="${user1.roles}" />
+
+    </tr>
+    </tbody>
+    </table>
 
 </div>
 </body>
