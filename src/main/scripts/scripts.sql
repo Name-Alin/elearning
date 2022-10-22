@@ -15,9 +15,9 @@ GRANT DELETE ON elp_dev.* to 'elp_dev_user'@'%';
 GRANT UPDATE ON elp_dev.* to 'elp_dev_user'@'%';
 -----------------------------------------------------
 --Insert data
-INSERT INTO elp_dev.roles (role_id, name) VALUES (1, 'administrator');
-INSERT INTO elp_dev.roles (role_id, name) VALUES (3, 'supervisor');
-INSERT INTO elp_dev.roles (role_id, name) VALUES (3, 'member');
+INSERT INTO elp_dev.roles (role_id, name) VALUES (1, 'ROLE_ADMIN');
+INSERT INTO elp_dev.roles (role_id, name) VALUES (3, 'ROLE_SUPERVISOR');
+INSERT INTO elp_dev.roles (role_id, name) VALUES (3, 'ROLE_MEMBER');
 -----
 INSERT INTO `elp_dev`.`users`(`enabled`, `password`, `username`)
 VALUES (true,'pass', 'memberUser'), (true,'pass', 'supervisorUser'), (true,'pass', 'adminUser');

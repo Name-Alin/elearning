@@ -1,5 +1,6 @@
 package com.elearning.services.users;
 
+import com.elearning.dto.RoleDto;
 import com.elearning.dto.mapper.MapperDto;
 import com.elearning.model.authentication.Role;
 import com.elearning.repositories.RoleRepository;
@@ -26,8 +27,8 @@ public class RoleServiceImpl {
 //        mav.addObject("roles", roleRepository.findAll());
 //        return mav;
 //    }
-    public Set<Role> getAllRoles() {
-        return new HashSet<>(roleRepository.findAll());
+    public Set<RoleDto> getAllRoles() {
+        return roleRepository.findAll().stream().map(mapper::convertToRoleDto).collect(Collectors.toSet());
     }
     public List<String> getRoleNames(){
         return roleRepository.findAll().stream().map(Role::getName).collect(Collectors.toList());

@@ -39,6 +39,7 @@ public class UserController {
 
 
     @PostMapping("/adduser")
+    @ResponseStatus(HttpStatus.CREATED)
     public String addUser(@Valid UserDto user, BindingResult result) throws Exception {
 
         if (result.hasErrors()) {
@@ -46,10 +47,17 @@ public class UserController {
                 log.debug(objectError.toString());
             });
         }
-        log.info("Username: {}",user.getUsername());
-        log.info("Role: {}",user.getRoles());
+        log.info("Username: {}", user.getUsername());
+        log.info("Role: {}", user.getRoles());
         userService.createNewUser(user);
-        return "redirect:/";
+        return "index";
+    }
+
+    @GetMapping("/deleteUser/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public String deleteUser(@PathVariable("id") Long id){
+        userService.deleteUserById(id);
+        return "redirect:/userform";
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)

@@ -1,5 +1,6 @@
 package com.elearning.controllers;
 
+import com.elearning.dto.RoleDto;
 import com.elearning.model.authentication.Role;
 import com.elearning.services.users.RoleServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +21,7 @@ public class RoleController {
     }
 
     @GetMapping("/getRoles")
-    public Set<Role> getRoles(Model model) {
+    public Set<RoleDto> getRoles(Model model) {
         return roleService.getAllRoles();
 //        model.addAttribute("roles",roleService.getAllRoles());
 //        return model;
