@@ -27,6 +27,7 @@ public class MapperDto {
             return null;
         }
         return User.builder()
+                .id(userDto.getId())
                 .password(userDto.getPassword())
                 .username(userDto.getUsername())
                 .enabled(userDto.isEnabled())

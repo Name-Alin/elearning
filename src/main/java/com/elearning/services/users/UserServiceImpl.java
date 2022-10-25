@@ -37,10 +37,18 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void createNewUser(UserDto userDto) throws Exception {
         User user = mapper.convertToUserEntity(userDto);
-        if (userRepository.findByUsername(user.getUsername()).isPresent()) {
-            throw new Exception("Username: " + user.getUsername() + " is already present in database");
+//        if (userRepository.findByUsername(user.getUsername()).isPresent()) {
+//            throw new Exception("Username: " + user.getUsername() + " is already present in database");
+//        }
+        if (user.getId() == null) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        } else if (user.getPassword().chars().count()==60){
+            //check if password is encoded or not...
+            log.info("Password count is: {}", user.getPassword().chars().count());
+            user.setPassword(user.getPassword());
+        } else {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
         User userSaved = userRepository.save(user);
 
         log.info("New user added: {} #ID{}", userSaved.getUsername(), userSaved.getId());
@@ -56,9 +64,24 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void deleteUserById(Long id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User was not found",ErrorType.USER_DOES_NOT_EXIST));
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User was not found", ErrorType.USER_DOES_NOT_EXIST));
         userRepository.delete(user);
 
+    }
+
+    @Override
+    public UserDto getUserById(Long id) {
+        return userRepository.findById(id).map(mapper::convertToUserDto)
+                .orElseThrow(() -> new ResourceNotFoundException("User was not found", ErrorType.USER_DOES_NOT_EXIST));
+    }
+
+    @Transactional
+    public void updateUser(UserDto userDto) {
+        User user = mapper.convertToUserEntity(userDto);
+
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        User userSaved = userRepository.save(user);
     }
 
 }

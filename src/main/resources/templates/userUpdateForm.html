@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+  <meta charset="UTF-8">
+  <title>User CRUD</title>
+</head>
+<body>
+<div>
+    <h1>This is the page I want</h1>
+
+<form action="#" th:action="@{/updateUser}" th:object="${userDto}" method="post">
+    <label th:text="'UserId: ' + ${specificUser.id}"></label>
+    <input type="text" th:field="${specificUser.id}" id="userid" readonly>
+    <label for="username">UserName</label>
+    <input type="text" th:field="${specificUser.username}" id="username" >
+    <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
+    <label for="password">Password</label>
+    <input type="password" name="password" id="password" th:value="${specificUser.password}">
+    <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+    <label for="enabled">Enabled</label>
+    <input type="checkbox" name="enabled" id="enabled" checked>
+    <input type="submit" value="Update user details">
+    <br>
+    <label>Roles:</label>
+    <select id="id" name="roles" multiple="multiple">
+        <option th:each="role : ${allRoles}"
+                th:value="${role.id}" th:text="${role.name}" th:selected="${role.name==specificUser.roles}" ></option>
+
+    </select>
+</form>
+
+</div>
+</body>
+
+</html>

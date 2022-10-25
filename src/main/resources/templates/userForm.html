@@ -18,7 +18,7 @@
     <input type="password" th:field="*{password}" id="Pass">
     <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
     <label for="enable_user">Enabled</label>
-    <input type="checkbox" th:field="*{enabled}" id="enable_user" checked="true" >
+    <input type="checkbox" th:field="*{enabled}" id="enable_user" aria-checked="true">
     <input type="submit" value="Add New User">
     <br>
     <label>Roles:</label>
@@ -37,6 +37,7 @@
         <td><b>Username</b> </td>
         <td><b>Role</b> </td>
         <td><b>Delete User</b> </td>
+        <td><b>Update User</b> </td>
     </tr>
     </thead>
     <tbody>
@@ -45,7 +46,7 @@
         <td th:text="${user1.username}" />
         <td th:text="${user1.roles}" />
         <td><a href="#" th:href="@{'deleteUser/' + ${user1.id}}">Delete</a></td>
-        <td><a href="#" th:href="@{'updateUser/' + ${user1.id}}">Update</a></td>
+        <td><a href="#" th:href="@{'showUserById/' + ${user1.id}}">Update</a></td>
     </tr>
     </tbody>
     </table>

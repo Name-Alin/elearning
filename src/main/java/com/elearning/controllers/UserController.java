@@ -1,5 +1,6 @@
 package com.elearning.controllers;
 
+import com.elearning.dto.RoleDto;
 import com.elearning.dto.UserDto;
 import com.elearning.model.authentication.Role;
 import com.elearning.model.authentication.User;
@@ -14,7 +15,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 
 @Slf4j
 @Controller
@@ -40,7 +44,7 @@ public class UserController {
 
     @PostMapping("/adduser")
     @ResponseStatus(HttpStatus.CREATED)
-    public String addUser(@Valid UserDto user, BindingResult result) throws Exception {
+    public String addUser(@Valid UserDto user, BindingResult result, HttpServletResponse httpServletResponse) throws Exception {
 
         if (result.hasErrors()) {
             result.getAllErrors().forEach(objectError -> {
@@ -50,14 +54,38 @@ public class UserController {
         log.info("Username: {}", user.getUsername());
         log.info("Role: {}", user.getRoles());
         userService.createNewUser(user);
-        return "index";
+
+        httpServletResponse.sendRedirect("/userform");
+        return "redirect:/userform";
     }
 
     @GetMapping("/deleteUser/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public String deleteUser(@PathVariable("id") Long id){
+    public String deleteUser(@PathVariable("id") Long id, HttpServletResponse httpServletResponse) throws IOException {
         userService.deleteUserById(id);
+        httpServletResponse.sendRedirect("/userform");
         return "redirect:/userform";
+    }
+
+    @PostMapping("/updateUser")
+    public String updateUser(@Valid UserDto userDto, BindingResult result) throws Exception {
+        if (result.hasErrors()) {
+            result.getAllErrors().forEach(objectError -> {
+                log.debug(objectError.toString());
+            });
+        }
+
+        userService.createNewUser(userDto);
+
+        return "redirect:/userform";
+    }
+
+    @GetMapping("showUserById/{id}")
+    public String showUserById(@PathVariable("id") Long id, @Valid UserDto userDto, Model model) {
+
+        model.addAttribute("specificUser", userService.getUserById(id));
+        model.addAttribute("allRoles", roleService.getAllRoles());
+        return "userUpdateForm";
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
