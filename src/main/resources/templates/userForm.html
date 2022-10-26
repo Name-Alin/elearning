@@ -25,7 +25,12 @@
     <select id="roles" th:field="*{roles}" multiple="multiple">
         <option th:each="role : ${allRoles}"
                 th:value="${role.id}" th:text="${role.name}"></option>
+    </select>
 
+    <label>Suervisor:</label>
+    <select id="supervisor" th:field="*{isSupervisedBy}" multiple="multiple">
+        <option th:each="supervisor : ${supervisors}"
+                th:value="${supervisor.id}" th:text="${supervisor.username}"></option>
     </select>
 </form>
 
@@ -36,15 +41,17 @@
         <td><b>Id</b> </td>
         <td><b>Username</b> </td>
         <td><b>Role</b> </td>
+        <td><b>Supervisor Id</b> </td>
         <td><b>Delete User</b> </td>
         <td><b>Update User</b> </td>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="user1: ${allUsers}">
+    <tr th:each="user1 : ${allUsers}">
         <td th:text="${user1.id}">1</td>
         <td th:text="${user1.username}" />
-        <td th:text="${user1.roles}" />
+        <td th:text="${user1.roles[0].name}" />
+        <td th:text="${user1.isSupervisedBy}" />
         <td><a href="#" th:href="@{'deleteUser/' + ${user1.id}}">Delete</a></td>
         <td><a href="#" th:href="@{'showUserById/' + ${user1.id}}">Update</a></td>
     </tr>

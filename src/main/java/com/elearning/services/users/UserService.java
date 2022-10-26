@@ -6,11 +6,13 @@ import java.util.List;
 
 public interface UserService {
 
-    void createNewUser(UserDto user) throws Exception;
+    void saveOrUpdateUser(UserDto user) throws Exception;
 
     List<UserDto> getAllUsers();
 
     void deleteUserById(Long id);
 
     UserDto getUserById(Long id);
+
+    List<UserDto> getSupervisorsNames();
 }

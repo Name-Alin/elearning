@@ -37,6 +37,9 @@ public class User {
     )
     private Set<Role> roles = new HashSet<>();
 
+    private Long isSupervisedBy;
+
+
     public Long getId() {
         return id;
     }
@@ -75,6 +78,14 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public Long getIsSupervisedBy() {
+        return isSupervisedBy;
+    }
+
+    public void setIsSupervisedBy(Long isSupervisedBy) {
+        this.isSupervisedBy = isSupervisedBy;
     }
 
     @Override

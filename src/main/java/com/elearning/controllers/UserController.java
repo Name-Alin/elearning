@@ -1,6 +1,5 @@
 package com.elearning.controllers;
 
-import com.elearning.dto.RoleDto;
 import com.elearning.dto.UserDto;
 import com.elearning.model.authentication.Role;
 import com.elearning.model.authentication.User;
@@ -15,7 +14,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
@@ -38,6 +36,8 @@ public class UserController {
     public String userForm(User user, Role role1, Model model) {
         model.addAttribute("allUsers", userService.getAllUsers());
         model.addAttribute("allRoles", roleService.getAllRoles());
+        model.addAttribute("supervisors", userService.getSupervisorsNames());
+//        userService.getSupervisorsNames().forEach(l->log.info(l.getUsername()));
         return "userForm";
     }
 
@@ -53,7 +53,7 @@ public class UserController {
         }
         log.info("Username: {}", user.getUsername());
         log.info("Role: {}", user.getRoles());
-        userService.createNewUser(user);
+        userService.saveOrUpdateUser(user);
 
         httpServletResponse.sendRedirect("/userform");
         return "redirect:/userform";
@@ -75,7 +75,7 @@ public class UserController {
             });
         }
 
-        userService.createNewUser(userDto);
+        userService.saveOrUpdateUser(userDto);
 
         return "redirect:/userform";
     }
@@ -85,6 +85,8 @@ public class UserController {
 
         model.addAttribute("specificUser", userService.getUserById(id));
         model.addAttribute("allRoles", roleService.getAllRoles());
+        model.addAttribute("supervisors", userService.getSupervisorsNames());
+
         return "userUpdateForm";
     }
 

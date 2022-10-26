@@ -19,4 +19,5 @@ public class UserDto {
     private String password;
     private boolean enabled;
     private Set<Role> roles;
+    private Long isSupervisedBy;
 }

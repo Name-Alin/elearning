@@ -3,21 +3,16 @@ package com.elearning.services.users;
 import com.elearning.dto.UserDto;
 import com.elearning.dto.mapper.MapperDto;
 import com.elearning.exceptions.ErrorType;
-import com.elearning.exceptions.NotFoundException;
 import com.elearning.exceptions.ResourceNotFoundException;
 import com.elearning.model.authentication.User;
 import com.elearning.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
-import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
-
-import static java.lang.System.err;
 
 @Slf4j
 @Service
@@ -35,15 +30,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void createNewUser(UserDto userDto) throws Exception {
+    public void saveOrUpdateUser(UserDto userDto) throws Exception {
         User user = mapper.convertToUserEntity(userDto);
 //        if (userRepository.findByUsername(user.getUsername()).isPresent()) {
 //            throw new Exception("Username: " + user.getUsername() + " is already present in database");
 //        }
-        if (user.getId() == null) {
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-        } else if (user.getPassword().chars().count()==60){
-            //check if password is encoded or not...
+//        if (user.getId() == null) {
+//            user.setPassword(passwordEncoder.encode(user.getPassword()));
+//        }
+         if (user.getPassword().chars().count() == 60) {
             log.info("Password count is: {}", user.getPassword().chars().count());
             user.setPassword(user.getPassword());
         } else {
@@ -77,11 +72,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Transactional
-    public void updateUser(UserDto userDto) {
-        User user = mapper.convertToUserEntity(userDto);
-
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        User userSaved = userRepository.save(user);
+    @Override
+    public List<UserDto> getSupervisorsNames() {
+        return userRepository.getSupervisors().stream().map(mapper::convertToUserDto).collect(Collectors.toList());
     }
 
 }

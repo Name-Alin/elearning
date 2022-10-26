@@ -20,6 +20,7 @@ public class MapperDto {
                 .password(user.getPassword())
                 .enabled(user.isEnabled())
                 .roles(user.getRoles())
+                .isSupervisedBy(user.getIsSupervisedBy())
                 .build();
     }
     public User convertToUserEntity(UserDto userDto){
@@ -32,6 +33,7 @@ public class MapperDto {
                 .username(userDto.getUsername())
                 .enabled(userDto.isEnabled())
                 .roles(userDto.getRoles())
+                .isSupervisedBy(userDto.getIsSupervisedBy())
                 .build();
     }
 

@@ -24,10 +24,17 @@
     <input type="submit" value="Update user details">
     <br>
     <label>Roles:</label>
-    <select id="id" name="roles" multiple="multiple">
-        <option th:each="role : ${allRoles}"
-                th:value="${role.id}" th:text="${role.name}" th:selected="${role.name==specificUser.roles}" ></option>
+    <select id="roles" name="roles" multiple="multiple">
+        <option th:each="role : ${allRoles} "
+                th:value="${role.id}" th:text="${role.name}" th:selected="${role.name==specificUser.roles[0].name}" ></option>
 
+    </select>
+
+    <label>Suervisor:</label>
+    <select id="isSupervisedBy" name="isSupervisedBy" multiple="multiple">
+        <option th:each="supervisor : ${supervisors}"
+                th:value="${supervisor.id}" th:text="${supervisor.username}" th:selected="${supervisor.id==specificUser.isSupervisedBy}"></option>
+        <option></option>
     </select>
 </form>
 
