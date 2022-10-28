@@ -32,9 +32,9 @@
 
     <label>Suervisor:</label>
     <select id="isSupervisedBy" name="isSupervisedBy" multiple="multiple">
+        <option></option>
         <option th:each="supervisor : ${supervisors}"
                 th:value="${supervisor.id}" th:text="${supervisor.username}" th:selected="${supervisor.id==specificUser.isSupervisedBy}"></option>
-        <option></option>
     </select>
 </form>
 
