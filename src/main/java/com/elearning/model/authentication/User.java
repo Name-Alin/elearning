@@ -1,5 +1,7 @@
 package com.elearning.model.authentication;
 
+//import com.elearning.model.evaluation.EvaluationDetails;
+import com.elearning.model.evaluation.Quiz;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -29,6 +31,11 @@ public class User {
     private String username;
     private String password;
     private boolean enabled;
+    private Long isSupervisedBy;
+
+//    @OneToOne
+//    @JoinColumn(name = "evaluation_details_id")
+//    private EvaluationDetails evaluationDetails;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles",
@@ -37,8 +44,12 @@ public class User {
     )
     private Set<Role> roles = new HashSet<>();
 
-    private Long isSupervisedBy;
+//    OneToMany
+//    private Set<User> supervisor;
 
+//    public EvaluationDetails getEvaluationDetails() {
+//        return evaluationDetails;
+//    }
 
     public Long getId() {
         return id;

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+  <meta charset="UTF-8">
+  <title>User CRUD</title>
+</head>
+<body>
+<div>
+    <h1>Create quiz and first question</h1>
+    <a href="/">IndexPage</a>
+
+</div>
+
+<form action="#" th:action="@{/createNewQuiz}" th:object="${quizDto}" method="post">
+
+
+    <fieldset>
+        <input type="submit" id="submitButton" th:value="Save">
+        <input type="reset" id="resetButton" name="reset" th:value="Reset"/>
+        <br>
+        <label for="question">Question text</label>
+        <br>
+        <input type="text" id="question" th:each="question, itemStat : *{questions}"
+               th:field="*{questions[__${itemStat.index}__].content}" >
+        <br>
+        <label for="answer1">Answer Options</label>
+        <br>
+        <label>1</label>
+        <input type="text" id="answer1" th:each="question, itemStat : *{questions}"
+               th:field="*{questions[__${itemStat.index}__].answers[0].content}" >
+        <input type="checkbox" id="correct1" th:each="question, itemStat : *{questions}"
+               th:field="*{questions[__${itemStat.index}__].answers[0].correct}"  >
+
+        <label>2</label>
+        <input type="text" id="answer2" th:each="question, itemStat : *{questions}"
+               th:field="*{questions[__${itemStat.index}__].answers[1].content}" >
+        <input type="checkbox" id="correct2" th:each="question, itemStat : *{questions}"
+               th:field="*{questions[__${itemStat.index}__].answers[1].correct}"  >
+        <br>
+        <label>3</label>
+        <input type="text" id="answer3" th:each="question, itemStat : *{questions}"
+               th:field="*{questions[__${itemStat.index}__].answers[2].content}" >
+        <input type="checkbox" id="correct3" th:each="question, itemStat : *{questions}"
+               th:field="*{questions[__${itemStat.index}__].answers[2].correct}"  >
+
+        <label>4</label>
+        <input type="text" id="answer4" th:each="question, itemStat : *{questions}"
+               th:field="*{questions[__${itemStat.index}__].answers[3].content}" >
+        <input type="checkbox" id="correct4" th:each="question, itemStat : *{questions}"
+               th:field="*{questions[__${itemStat.index}__].answers[3].correct}"  >
+
+    </fieldset>
+</form>
+
+</body>
+
+</html>

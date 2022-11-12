@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void saveOrUpdateUser(UserDto userDto) throws Exception {
+    public void saveOrUpdateUser(UserDto userDto) {
         User user = mapper.convertToUserEntity(userDto);
 //        if (userRepository.findByUsername(user.getUsername()).isPresent()) {
 //            throw new Exception("Username: " + user.getUsername() + " is already present in database");
@@ -50,6 +50,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public List<UserDto> getAllUsers() {
         return userRepository.findAll().stream().map(mapper::convertToUserDto).collect(Collectors.toList());
 
@@ -66,6 +67,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public UserDto getUserById(Long id) {
         return userRepository.findById(id).map(mapper::convertToUserDto)
                 .orElseThrow(() -> new ResourceNotFoundException("User was not found", ErrorType.USER_DOES_NOT_EXIST));

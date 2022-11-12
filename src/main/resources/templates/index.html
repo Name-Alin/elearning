@@ -39,12 +39,16 @@
 </div>
 
 
-<div sec:authorize="hasAuthority('ROLE_ADMIN')">
-    <a th:href="@{/userform}">Create New Product</a>
+<!--<div sec:authorize="hasAuthority('ROLE_ADMIN')">-->
+<!--    <a th:href="@{/quiz}">Create New Product</a>-->
+<!--</div>-->
+
+<div>
+    <a th:href="@{/quiz}">Quiz Page</a>
 </div>
 
 <div>
-    <a th:href="@{/userform}">Create something Product</a>
+    <a th:href="@{/userform}">User CRUD Page</a>
 </div>
 
 </body>
