@@ -1,24 +1,24 @@
 package com.elearning.controllers;
 
-import com.elearning.dto.AnswerDto;
-import com.elearning.dto.QuestionDto;
 import com.elearning.dto.QuizDto;
 import com.elearning.model.evaluation.Answer;
 import com.elearning.model.evaluation.Question;
 import com.elearning.services.evaluation.QuizServiceImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Slf4j
 @Controller
@@ -30,8 +30,16 @@ public class QuizController {
         this.quizService = quizService;
     }
 
-    @GetMapping("/quiz")
-    public String getQuestionForm(Model model, Question questionDto, QuizDto quizDto) {
+    @GetMapping("/showQuizzes")
+    public String getQuizzes(Model model) {
+
+        model.addAttribute("quizzes", quizService.getAllQuizzes());
+
+        return "evaluation/showQuizzes";
+    }
+
+    @GetMapping("/quizForm")
+    public String getQuizForm(Model model, Question questionDto, QuizDto quizDto) {
         List<Question> questions = new ArrayList<>();
         List<Answer> answerDtos = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
@@ -46,17 +54,27 @@ public class QuizController {
     }
 
     @PostMapping("/createNewQuiz")
-    public String createNewQuiz(@Valid QuizDto quizDto, BindingResult result) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public String createNewQuiz(@Valid QuizDto quizDto, BindingResult result, HttpServletResponse httpServletResponse) throws IOException {
 
         if (result.hasErrors()) {
             result.getAllErrors().forEach(objectError -> log.debug(objectError.toString()));
         }
 
-        quizService.saveOrUpdateQuiz(quizDto);
-
+        quizService.saveQuiz(quizDto);
         Long id = quizService.getLastQuizId();
 
-        return "redirect:/quiz";
+        httpServletResponse.sendRedirect("/quiz/" + id + "/questions");
+        return "redirect:/quiz/" + id + "/questions";
+    }
+
+    @GetMapping("/deleteQuiz/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public String deleteQuiz(@PathVariable("id") Long id) {
+
+        quizService.deleteQuiz(id);
+
+        return "redirect:/showQuizzes";
     }
 
 }
