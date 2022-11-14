@@ -11,7 +11,7 @@
     <h1>Quiz Questions</h1>
     <a href="/">IndexPage</a>
 
-    <form action="#" th:action="@{/createNewQuestion}" th:object="${questionDto}" method="post">
+    <form action="#" th:action="@{/createOrSaveQuestion}" th:object="${questionDto}" method="post">
 
         <fieldset>
             <input type="submit" id="submitButton" th:value="Save">
@@ -29,24 +29,6 @@
             <input type="checkbox" id="correct1" th:each="answer, itemStat : *{answers}"
                    th:field="*{answers[__${itemStat.index}__].correct}">
 
-            <!--            <label>2</label>-->
-            <!--            <input type="text" id="answer2" th:each="question, itemStat : *{questions}"-->
-            <!--                   th:field="*{questions[__${itemStat.index}__].answers[1].content}" >-->
-            <!--            <input type="checkbox" id="correct2" th:each="question, itemStat : *{questions}"-->
-            <!--                   th:field="*{questions[__${itemStat.index}__].answers[1].correct}"  >-->
-            <!--            <br>-->
-            <!--            <label>3</label>-->
-            <!--            <input type="text" id="answer3" th:each="question, itemStat : *{questions}"-->
-            <!--                   th:field="*{questions[__${itemStat.index}__].answers[2].content}" >-->
-            <!--            <input type="checkbox" id="correct3" th:each="question, itemStat : *{questions}"-->
-            <!--                   th:field="*{questions[__${itemStat.index}__].answers[2].correct}"  >-->
-
-            <!--            <label>4</label>-->
-            <!--            <input type="text" id="answer4" th:each="question, itemStat : *{questions}"-->
-            <!--                   th:field="*{questions[__${itemStat.index}__].answers[3].content}" >-->
-            <!--            <input type="checkbox" id="correct4" th:each="question, itemStat : *{questions}"-->
-            <!--                   th:field="*{questions[__${itemStat.index}__].answers[3].correct}"  >-->
-
         </fieldset>
     </form>
 
@@ -55,8 +37,8 @@
         <tr>
             <td><b>Question Id</b></td>
             <td><b>Question Content</b></td>
-            <!--            <td><b>Delete Quiz</b></td>-->
-            <!--            <td><b>Update Questions</b></td>-->
+            <td><b>Delete Questions</b></td>
+            <td><b>Update Questions</b></td>
         </tr>
         </thead>
         <tbody>
@@ -68,8 +50,8 @@
             <!--            <input type="text" id="question" th:each="question, itemStat : *{questions}"-->
             <!--                   th:field="*{questions[__${itemStat.index}__].content}" >-->
 
-            <td><a href="#" th:href="@{'/deleteQuestion/' + ${question.id}}">Delete question</a></td>
-            <!--            <td><a href="#" th:href="@{'/quiz/' + ${quiz.id} + '/questions' }">Update Questions</a></td>-->
+            <td><a href="#" th:href="@{'/deleteQuestion/' + ${question.id} }">Delete question</a></td>
+            <td><a href="#" th:href="@{'/showQuestion/' + ${question.id} }">Update Questions</a></td>
         </tr>
         </tbody>
     </table>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Update Question</title>
+</head>
+<body>
+<div>
+    <h1>Update Question</h1>
+    <a href="/">IndexPage</a>
+
+    <form action="#" th:action="@{/createOrSaveQuestion}" th:object="${questionDto}" method="post">
+
+        <fieldset>
+            <input type="submit" id="submitButton" th:value="Save">
+<!--            <input type="reset" id="resetButton" name="reset" th:value="Reset"/>-->
+            <br>
+            <label th:text="'QuestionId: ' + ${question.id}"></label>
+            <br>
+            <input type="hidden" th:field="${question.id}" id="questionId" readonly>
+            <br>
+            <label for="content">Question text</label>
+            <br>
+            <input type="text" id="content" th:field="${question.content}">
+            <br>
+            <!--        <input type="text" id="quiz" th:field="${question.quiz}" >-->
+
+            <label for="answer1">Answer Options</label>
+            <br>
+            <label>1</label>
+            <input type="text" id="answer1" th:field="${question.answers[0].content}">
+            <input type="checkbox" id="correct1" th:field="${question.answers[0].correct}">
+
+            <label>2</label>
+            <input type="text" id="answer2" th:field="${question.answers[1].content}">
+            <input type="checkbox" id="correct2" th:field="${question.answers[1].correct}">
+            <br>
+            <label>3</label>
+            <input type="text" id="answer3" th:field="${question.answers[2].content}">
+            <input type="checkbox" id="correct3" th:field="${question.answers[2].correct}">
+
+            <label>4</label>
+            <input type="text" id="answer4" th:field="${question.answers[3].content}">
+            <input type="checkbox" id="correct4" th:field="${question.answers[3].correct}">
+
+        </fieldset>
+    </form>
+
+</div>
+
+</body>
+
+</html>

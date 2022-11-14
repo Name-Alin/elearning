@@ -42,7 +42,7 @@ public class QuestionServiceImpl {
                 .orElseThrow(() -> new ResourceNotFoundException("Quiz was not found", ErrorType.QUIZ_DOES_NOT_EXIST));
     }
 
-    public void saveQuestion(QuestionDto questionDto, Long quizId) {
+    public void saveOrUpdateQuestion(QuestionDto questionDto, Long quizId) {
         Question question = mapper.convertToQuestionEntity(questionDto);
         question.getAnswers().forEach(question::addAnswer);
         question.setQuiz(quizRepository.getReferenceById(quizId));
@@ -53,5 +53,16 @@ public class QuestionServiceImpl {
 
         questionRepository.delete(questionRepository.getReferenceById(questionId));
 
+    }
+
+    public QuestionDto getQuestionById(Long questionId) {
+        return mapper.convertToQuestionDto(questionRepository.getReferenceById(questionId));
+
+    }
+
+    public void updateQuestion(QuestionDto questionDto) {
+        Question question = mapper.convertToQuestionEntity(questionDto);
+        question.getAnswers().forEach(question::addAnswer);
+        log.info(question.getQuiz().toString());
     }
 }

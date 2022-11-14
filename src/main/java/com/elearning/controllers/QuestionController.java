@@ -44,21 +44,29 @@ public class QuestionController {
         return "evaluation/quizQuestions";
     }
 
-    @PostMapping("createNewQuestion")
+    @PostMapping("createOrSaveQuestion")
     public String addQuestion(@Valid QuestionDto questionDto) {
 
-        questionService.saveQuestion(questionDto, quizId);
+        questionService.saveOrUpdateQuestion(questionDto, quizId);
 
         return "redirect:/quiz/" + quizId + "/questions";
     }
 
     @GetMapping("/deleteQuestion/{id}")
-    public String deleteQuestion(@PathVariable("id") Long questionId){
+    public String deleteQuestion(@PathVariable("id") Long questionId) {
 
         questionService.deleteQuestion(questionId);
 
         return "redirect:/quiz/" + quizId + "/questions";
     }
 
-    //update question
+    @GetMapping("showQuestion/{id}")
+    public String showSpecificQuestion(@PathVariable("id") Long questionId, Model model, QuestionDto questionDto) {
+
+        model.addAttribute("question", questionService.getQuestionById(questionId));
+
+        return "evaluation/questionUpdateForm";
+    }
+
+
 }
