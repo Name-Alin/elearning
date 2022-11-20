@@ -1,5 +1,6 @@
 package com.elearning.model.evaluation;
 
+import com.elearning.model.training.Training;
 import lombok.*;
 import org.hibernate.Hibernate;
 
@@ -32,6 +33,10 @@ public class Quiz {
     private Timestamp startTime;
     private Timestamp endTime;
     private boolean isOpen;
+
+    @ManyToOne()
+    @JoinColumn(name = "training_id")
+    private Training training;
 
 
     @Override
@@ -76,5 +81,9 @@ public class Quiz {
 
     public void setOpen(boolean open) {
         isOpen = open;
+    }
+
+    public void setTraining(Training training) {
+        this.training = training;
     }
 }

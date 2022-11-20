@@ -1,6 +1,8 @@
 package com.elearning.model.authentication;
 
 //import com.elearning.model.evaluation.EvaluationDetails;
+
+import com.elearning.model.evaluation.EvaluationDetails;
 import com.elearning.model.evaluation.Quiz;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,6 +12,7 @@ import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -27,15 +30,19 @@ public class User {
     @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    private String firstName;
+    private String lastName;
     private String username;
     private String password;
     private boolean enabled;
     private Long isSupervisedBy;
 
-//    @OneToOne
-//    @JoinColumn(name = "evaluation_details_id")
-//    private EvaluationDetails evaluationDetails;
+    @OneToMany(fetch = FetchType.LAZY,
+            mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    @ToString.Exclude
+    private List<EvaluationDetails> evaluationDetails;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles",
@@ -44,8 +51,14 @@ public class User {
     )
     private Set<Role> roles = new HashSet<>();
 
-//    OneToMany
-//    private Set<User> supervisor;
+    public void setEvaluationDetails(List<EvaluationDetails> evaluationDetails) {
+        this.evaluationDetails = evaluationDetails;
+    }
+
+    public List<EvaluationDetails> getEvaluationDetails() {
+        return evaluationDetails;
+    }
+
 
 //    public EvaluationDetails getEvaluationDetails() {
 //        return evaluationDetails;
@@ -97,6 +110,22 @@ public class User {
 
     public void setIsSupervisedBy(Long isSupervisedBy) {
         this.isSupervisedBy = isSupervisedBy;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     @Override
