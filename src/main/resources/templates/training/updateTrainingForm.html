@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Training CRUD</title>
+</head>
+<body>
+<div>
+    <h1>Training Page</h1>
+    <a href="/">IndexPage</a>
+
+
+    <form action="#" th:action="@{/updateTraining}" th:object="${trainingDto}" enctype="multipart/form-data" method="post">
+
+        <fieldset>
+            <input type="submit" id="submitButton" th:value="Save">
+            <input type="reset" id="resetButton" name="reset" th:value="Reset"/>
+
+            <input type="hidden" id="trainingId" th:field="${training.id}">
+            <br>
+            <label for="trainingTitle">Training Title</label>
+            <br>
+            <input type="text" id="trainingTitle" th:field="${training.trainingTitle}">
+            <br>
+            <label for="description">Description</label>
+            <br>
+            <input type="text" id="description" th:field="${training.description}">
+            <br>
+            <label for="pathToTraining">Training File</label>
+            <br>
+            <input type="file" id="pathToTraining" th:field="*{multipartFile}">
+        </fieldset>
+    </form>
+
+</div>
+
+</body>
+
+</html>

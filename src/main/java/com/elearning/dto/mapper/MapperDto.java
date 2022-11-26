@@ -6,6 +6,7 @@ import com.elearning.model.authentication.User;
 import com.elearning.model.evaluation.Answer;
 import com.elearning.model.evaluation.Question;
 import com.elearning.model.evaluation.Quiz;
+import com.elearning.model.training.Training;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -122,4 +123,27 @@ public class MapperDto {
                 .isOpen(quizDto.isOpen())
                 .build();
     }
+
+    public TrainingDto convertToTrainingDto (Training training){
+        if (training == null)
+            return null;
+        return TrainingDto.builder()
+                .id(training.getId())
+                .trainingTitle(training.getTrainingTitle())
+                .description(training.getDescription())
+                .pathToTraining(training.getPathToTraining())
+                .build();
+    }
+
+    public Training convertToTrainingEntity(TrainingDto trainingDto){
+        if (trainingDto == null)
+            return null;
+        return Training.builder()
+                .id(trainingDto.getId())
+                .trainingTitle(trainingDto.getTrainingTitle())
+                .description(trainingDto.getDescription())
+                .build();
+    }
+
+
 }

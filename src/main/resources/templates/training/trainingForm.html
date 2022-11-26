@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Training CRUD</title>
+</head>
+<body>
+<div>
+    <h1>Training Page</h1>
+    <a href="/">IndexPage</a>
+
+
+    <form action="#" th:action="@{/addTraining}" th:object="${trainingDto}" enctype="multipart/form-data" method="post">
+
+        <fieldset>
+            <input type="submit" id="submitButton" th:value="Save">
+            <input type="reset" id="resetButton" name="reset" th:value="Reset"/>
+            <br>
+            <label for="trainingTitle">Training Title</label>
+            <br>
+            <input type="text" id="trainingTitle" th:field="*{trainingTitle}">
+            <br>
+            <label for="description">Description</label>
+            <br>
+            <input type="text" id="description" th:field="*{description}">
+            <br>
+            <label for="pathToTraining">Training File</label>
+            <br>
+            <input type="file" id="pathToTraining" th:field="*{multipartFile}">
+        </fieldset>
+    </form>
+
+    <br>
+    <table id="trainingTable" class="table table-striped table-primary">
+        <thead>
+        <tr>
+            <td><b>Training Id</b></td>
+            <td><b>Training Title</b></td>
+            <td><b>Training Description</b></td>
+            <td><b>Training Path</b></td>
+            <td><b>Delete Training</b></td>
+            <td><b>Update Training</b></td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="training, itemStat : ${allTrainings}">
+            <td th:text="${training.id}"></td>
+            <td th:text="${training.trainingTitle}"></td>
+            <td th:text="${training.description}"></td>
+            <td th:text="${training.pathToTraining}"></td>
+
+            <td><a href="#" th:href="@{'/deleteTraining/' + ${training.id} }">Delete training</a></td>
+            <td><a href="#" th:href="@{'/showUpdateForm/' + ${training.id} }">Update training</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+
+</html>
