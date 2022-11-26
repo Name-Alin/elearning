@@ -28,9 +28,11 @@
             <br>
             <input type="text" id="description" th:field="${training.description}">
             <br>
-            <label for="pathToTraining">Training File</label>
+            <label for="multipartFile">Training File</label>
             <br>
-            <input type="file" id="pathToTraining" th:field="*{multipartFile}">
+            <input type="file" id="multipartFile" th:field="*{multipartFile}">
+
+            <input type="file" id="pathToTraining" th:field="${training.pathToTraining}">
         </fieldset>
     </form>
 

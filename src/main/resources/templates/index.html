@@ -20,6 +20,9 @@
             crossorigin="anonymous" th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
 </head>
 <body>
+<div>
+    <div>
+
 <div sec:authorize="isAuthenticated()">
     Welcome <b><span sec:authentication="name">Username</span></b>
     &nbsp;
@@ -53,6 +56,35 @@
 
 <div>
     <a th:href="@{/userform}">User CRUD Page</a>
+</div>
+    </div>
+
+
+    <table id="trainingTable" class="table table-striped table-primary">
+        <thead>
+        <tr>
+            <td><b>Training Id</b></td>
+            <td><b>Training Title</b></td>
+            <td><b>Training Description</b></td>
+            <td><b>Training Path</b></td>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="training : ${trainings}">
+            <td th:text="${training.trainingTitle}"></td>
+            <td th:text="${training.description}"></td>
+            <td th:text="${training.pathToTraining}"></td>
+            <td>
+                <video width="320" height="240" controls>
+                    <source th:src="@{'/video_training/' + ${training.id}}" type="video/mp4" />
+                </video>
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+
 </div>
 
 </body>

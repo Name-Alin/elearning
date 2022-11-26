@@ -1,20 +1,21 @@
 package com.elearning.controllers;
 
 import com.elearning.dto.TrainingDto;
-import com.elearning.model.training.Training;
 import com.elearning.services.training.TrainingServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
-import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -22,6 +23,19 @@ public class TrainingController {
 
     @Autowired
     TrainingServiceImpl trainingService;
+
+    @GetMapping("/")
+    public String getIndexPage(Model model) {
+        List<TrainingDto> trainingDtos = trainingService.getAllTrainings();
+        trainingDtos.forEach(f -> {
+                    f.setPathToTraining(f.getPathToTraining().substring(1));
+                    log.info(f.getPathToTraining());
+                }
+        );
+        model.addAttribute("trainings", trainingDtos);
+
+        return "index";
+    }
 
     @GetMapping("/showTrainingForm")
     public String showTrainingForm(Model model) {
@@ -36,12 +50,6 @@ public class TrainingController {
     @ResponseStatus(HttpStatus.CREATED)
     public String addTraining(@Valid TrainingDto training, HttpServletResponse httpServletResponse) throws IOException {
 
-
-        log.info(training.getTrainingTitle());
-        log.info(training.getDescription());
-        log.info(training.getPathToTraining());
-        log.info(training.getMultipartFile().getName());
-
         trainingService.saveTraning(training);
 
         httpServletResponse.sendRedirect("/showTrainingForm");
@@ -50,7 +58,7 @@ public class TrainingController {
 
     @GetMapping("/deleteTraining/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public String deteleTraining(@PathVariable("id") Long id, HttpServletResponse httpServletResponse) throws IOException {
+    public String deleteTraining(@PathVariable("id") Long id, HttpServletResponse httpServletResponse) throws IOException {
 
         trainingService.deleteTraining(id);
 
