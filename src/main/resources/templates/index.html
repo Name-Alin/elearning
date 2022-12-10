@@ -76,15 +76,15 @@
             <td th:text="${training.description}"></td>
             <td th:text="${training.pathToTraining}"></td>
             <td>
-                <video width="320" height="240" controls>
-                    <source th:src="@{'/video_training/' + ${training.id}}" type="video/mp4" />
-                </video>
+               <a href="#" th:href="@{ '/training/' + ${training.id} }">  Start this training </a>
             </td>
 
         </tr>
         </tbody>
     </table>
-
+<!--    <video width="320" height="240" controls>-->
+<!--        <source th:src="@{'/video_training/' + ${training.id}}" type="video/mp4" />-->
+<!--    </video>-->
 </div>
 
 </body>

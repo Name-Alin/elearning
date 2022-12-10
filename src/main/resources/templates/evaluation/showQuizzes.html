@@ -27,7 +27,7 @@
             <td th:text="${quiz.id}">1</td>
 
             <td><a href="#" th:href="@{'/deleteQuiz/' + ${quiz.id}}">Delete Quiz</a></td>
-            <td><a href="#" th:href="@{'/quiz/' + ${quiz.id} + '/questions' }">Update Questions</a></td>
+            <td><a href="#" th:href="@{'/quiz/' + ${quiz.id} + '/questions' }">Update Questions in quiz</a></td>
         </tr>
         </tbody>
     </table>

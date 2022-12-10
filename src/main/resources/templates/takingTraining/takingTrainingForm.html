@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Training CRUD</title>
+</head>
+<body>
+<div>
+    <h1>Training Page</h1>
+    <a href="/">IndexPage</a>
+
+<br>
+    <video width="320" height="240" controls poster="">
+        <source th:src="@{'/video_training/' + ${training.id}}" type="video/mp4" />
+    </video>
+
+    <a href="#" th:href="@{ '/attemptQuiz/' + ${training.id} }">  Attempt Quiz </a>
+
+</div>
+</body>
+
+</html>

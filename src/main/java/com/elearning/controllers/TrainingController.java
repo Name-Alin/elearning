@@ -37,6 +37,14 @@ public class TrainingController {
         return "index";
     }
 
+    @GetMapping("/training/{id}")
+    public String takingTraining(@PathVariable("id") Long id, Model model) {
+
+        model.addAttribute("training", trainingService.getTrainingById(id));
+
+        return "takingTraining/takingTrainingForm";
+    }
+
     @GetMapping("/showTrainingForm")
     public String showTrainingForm(Model model) {
         TrainingDto trainingDto = new TrainingDto();

@@ -116,9 +116,9 @@ public class TrainingServiceImpl {
                 File previousFile = new File(String.valueOf(Path.of(trainingBeforeUpdate.getPathToTraining())));
                 String[] fileName = trainingBeforeUpdate.getPathToTraining().split("\\\\");
                 File newLocation = new File("./video_trainings/"
-                        + trainingDto.getTrainingTitle());
+                        + trainingDto.getTrainingTitle().replaceAll("\\s+","_"));
                 File newFiles = new File("./video_trainings/"
-                        + trainingDto.getTrainingTitle() + "/" + fileName[3]);
+                        + trainingDto.getTrainingTitle().replaceAll("\\s+","_") + "/" + fileName[3]);
                 newLocation.mkdirs();
 
                 log.info(previousFile.getCanonicalPath());

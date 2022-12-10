@@ -5,6 +5,7 @@ import com.elearning.model.training.Training;
 import lombok.*;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @ToString
 @Builder
@@ -33,6 +34,8 @@ public class EvaluationDetails {
     @Column(name = "training_id")
     private Long trainingId;
 
+//    private Timestamp startTime;
+//    private Timestamp endTime;
     private int totalQuizDuration;
 //  private int durationPerQuestion;
     private float quizPercentCorrect;

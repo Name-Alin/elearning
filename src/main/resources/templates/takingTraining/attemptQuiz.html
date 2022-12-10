@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Training CRUD</title>
+</head>
+<body>
+<div>
+    <h1>Training Page</h1>
+    <a href="/">IndexPage</a>
+
+    <br>
+    <form action="#" th:action="@{/submit}" th:object="${attemptedQuiz}" method="post">
+
+        <input type="hidden" th:field="*{id}" th:value="${attemptedQuiz.id}">
+
+        <fieldset th:each="question, i : ${attemptedQuiz.questions}">
+
+            <label><strong th:text="${question.content}"></strong></label>
+
+            <ul>
+                <li th:each="answer, j : ${question.answers}">
+
+                    <input type="hidden" th:name="|questions[${i.index}].answers[${j.index}].id|" th:value="${answer.id}">
+                    <input type="hidden" th:name="|questions[${i.index}].answers[${j.index}].content|" th:value="${answer.content}">
+                    <div th:id="${question.content}" >
+                    <input type="checkbox"
+                           th:name="|questions[${i.index}].answers[${j.index}].correct|"
+                           th:id="${answer.id}"
+                           th:value="1"
+                           th:checked="false"
+                           >
+
+                    <label th:text="${answer.content}" th:for="${answer.id}"></label>
+
+<!--                    |questions[${i.index}].answers[${j.index}].correct|-->
+<!--                    *{questions[__${i.index}__].answers[__${j.index}__].correct}-->
+<!--                    th:field="*{questions[__${i.index}__].answers[__${j.index}__].correct}"-->
+
+                    </div>
+                </li>
+            </ul>
+            <input type="hidden" th:name="|questions[${i.index}].id|" th:value="${question.id}">
+            <input type="hidden" th:name="|questions[${i.index}].content|" th:value="${question.content}">
+
+
+        </fieldset>
+        <button type="submit">Submit Answer</button>
+    </form>
+
+</div>
+</body>
+
+</html>
