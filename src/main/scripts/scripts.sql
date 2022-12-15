@@ -20,7 +20,7 @@ alter table users_roles add constraint FK_user foreign key (user_id) references 
 
 create table answer (id bigint not null auto_increment, content varchar(255), correct bit not null, question_id bigint not null, primary key (id)) engine=InnoDB;
 create table question (id bigint not null auto_increment, content varchar(255) not null, quiz_id bigint not null, primary key (id)) engine=InnoDB;
-create table quiz (id bigint not null auto_increment, end_time datetime(6), is_open bit not null, start_time datetime(6), training_id bigint, primary key (id)) engine=InnoDB;
+create table quiz (id bigint not null auto_increment, created_date datetime(6), description varchar(255), name varchar(255), training_id bigint, primary key (id)) engine=InnoDB;
 
 alter table answer add constraint FK_question foreign key (question_id) references question (id);
 alter table question add constraint FK_quiz foreign key (quiz_id) references quiz (id);

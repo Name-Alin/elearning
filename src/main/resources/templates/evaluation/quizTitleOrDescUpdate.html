@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+  <meta charset="UTF-8">
+  <title>User CRUD</title>
+</head>
+<body>
+<div>
+    <h1>Add questions to quiz</h1>
+    <a href="/">IndexPage</a>
+
+</div>
+
+<form action="#" th:action="@{/updateTitleOrDesc}" th:object="${quizDto}" method="post">
+
+    <fieldset>
+        <input type="submit" id="submitButton" th:value="Save">
+        <input type="reset" id="resetButton" name="reset" th:value="Reset"/>
+
+        <br>
+        <label for="quiz_name">Quiz Name</label>
+        <input type="text" id="quiz_name" th:field="*{name}">
+        <br>
+        <label for="quiz_description">Description</label>
+        <input type="text" id="quiz_description" th:field="*{description}">
+
+        <input type="hidden" th:field="*{id}">
+
+
+    </fieldset>
+</form>
+
+</body>
+
+</html>

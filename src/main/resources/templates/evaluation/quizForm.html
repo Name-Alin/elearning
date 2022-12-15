@@ -15,10 +15,17 @@
 
 <form action="#" th:action="@{/createNewQuiz}" th:object="${quizDto}" method="post">
 
-
     <fieldset>
         <input type="submit" id="submitButton" th:value="Save">
         <input type="reset" id="resetButton" name="reset" th:value="Reset"/>
+
+        <br>
+        <label for="quiz_name">Quiz Name</label>
+        <input type="text" id="quiz_name" th:field="*{name}">
+        <br>
+        <label for="quiz_description">Description</label>
+        <input type="text" id="quiz_description" th:field="*{description}">
+
         <br>
         <label for="question">Question text</label>
         <br>

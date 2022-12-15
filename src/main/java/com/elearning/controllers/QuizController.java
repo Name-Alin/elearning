@@ -87,6 +87,23 @@ public class QuizController {
         return "redirect:/showQuizzes";
     }
 
+    @GetMapping("/getQuizById/{id}")
+    public String getQuizById(@PathVariable("id") Long id, Model model){
+
+        model.addAttribute("quizDto",quizService.getQuizById(id));
+
+        return "evaluation/quizTitleOrDescUpdate";
+    }
+
+    @PostMapping("/updateTitleOrDesc")
+    public String updateTitleOrDesc(@Valid QuizDto quizDto){
+
+        quizService.updateTitleOrDesc(quizDto);
+
+
+        return "redirect:/showQuizzes";
+    }
+
     @GetMapping("/attemptQuiz")
     public String attemptQuiz(Model model, HttpServletRequest httpServletRequest) {
 
@@ -121,7 +138,7 @@ public class QuizController {
         quizResult.getQuestions().forEach(l -> log.info(l.getAnswers().toString()));
 //        answerDto.forEach(l->log.info("is correct?"+l.isCorrect()));
         log.info("is correct?");
-        quizService.getQuizResult(quizResult);
+        evaluationDetails.setQuizPercentCorrect(quizService.getQuizResult(quizResult));
 
         return "redirect:/";
     }

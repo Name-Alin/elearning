@@ -106,9 +106,9 @@ public class MapperDto {
         return QuizDto.builder()
                 .id(quiz.getId())
                 .questions(quiz.getQuestions())
-                .startTime(quiz.getStartTime())
-                .endTime(quiz.getEndTime())
-                .isOpen(quiz.isOpen())
+                .name(quiz.getName())
+                .description(quiz.getDescription())
+                .createdDate(quiz.getCreatedDate())
                 .build();
     }
 
@@ -118,9 +118,9 @@ public class MapperDto {
         return Quiz.builder()
                 .id(quizDto.getId())
                 .questions(quizDto.getQuestions())
-                .startTime(quizDto.getStartTime())
-                .endTime(quizDto.getEndTime())
-                .isOpen(quizDto.isOpen())
+                .name(quizDto.getName())
+                .description(quizDto.getDescription())
+                .createdDate(quizDto.getCreatedDate())
                 .build();
     }
 

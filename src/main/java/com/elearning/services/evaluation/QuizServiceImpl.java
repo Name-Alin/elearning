@@ -71,50 +71,65 @@ public class QuizServiceImpl {
         quizRepository.delete(quiz);
     }
 
-    public void getQuizResult(QuizDto quizResult) {
+    public float getQuizResult(QuizDto quizResult) {
         List<Question> questionsFromDb = new ArrayList<>();
         AtomicInteger correct = new AtomicInteger();
         AtomicInteger correctAnswersFromDb = new AtomicInteger();
         quizResult.getQuestions().forEach(q -> questionsFromDb.add(questionRepository.getReferenceById(q.getId())));
 
         quizResult.getQuestions().forEach(q ->
-            questionsFromDb.forEach(qd -> {
-                if (Objects.equals(qd.getId(), q.getId())) {
+                questionsFromDb.forEach(qd -> {
+                    if (Objects.equals(qd.getId(), q.getId())) {
 
-                    List<Answer> collectTrueAttempt = q.getAnswers().stream().filter(Answer::isCorrect).collect(Collectors.toList());
-                    List<Answer> collectTrueDb = qd.getAnswers().stream().filter(Answer::isCorrect).collect(Collectors.toList());
+                        List<Answer> collectTrueAttempt = q.getAnswers().stream().filter(Answer::isCorrect).collect(Collectors.toList());
+                        List<Answer> collectTrueDb = qd.getAnswers().stream().filter(Answer::isCorrect).collect(Collectors.toList());
 
-                    correctAnswersFromDb.getAndAdd(collectTrueDb.size());
+                        correctAnswersFromDb.getAndAdd(collectTrueDb.size());
 
-                    //if count of db.isCorrect == at.isCorrect && !db.isCorrect == !at.isCorrect -> correct++
-                    //check only if size is the same, else skip because answer is not correct
-                    if (collectTrueAttempt.size() > 1 && collectTrueAttempt.size() == collectTrueDb.size()) {
-                        log.info("Size higher than 1: \n Size of collectTrueAttempt is: {} \n and Size of collectTrueDb is: {}",
-                                collectTrueAttempt.size(), collectTrueDb.size());
+                        //if count of db.isCorrect == at.isCorrect && !db.isCorrect == !at.isCorrect -> correct++
+                        //check only if size is the same, else skip because answer is not correct
+                        if (collectTrueAttempt.size() > 1 && collectTrueAttempt.size() == collectTrueDb.size()) {
+                            log.info("Size higher than 1: \n Size of collectTrueAttempt is: {} \n and Size of collectTrueDb is: {}",
+                                    collectTrueAttempt.size(), collectTrueDb.size());
 
-                        //if ids match, answer is correct
-                        collectTrueDb.forEach(answerDb ->
-                                collectTrueAttempt.forEach(answerAt -> {
-                                    if (Objects.equals(answerDb.getId(), answerAt.getId())) {
-                                        correct.getAndIncrement();
-                                    }
-                                })
-                        );
+                            //if ids match, answer is correct
+                            collectTrueDb.forEach(answerDb ->
+                                    collectTrueAttempt.forEach(answerAt -> {
+                                        if (Objects.equals(answerDb.getId(), answerAt.getId())) {
+                                            correct.getAndIncrement();
+                                        }
+                                    })
+                            );
 
-                    } else if (collectTrueAttempt.size() == 1 && collectTrueDb.size() == 1
-                            && Objects.equals(collectTrueAttempt.get(0).getId(), collectTrueDb.get(0).getId())) {
-                        log.info("Size == 1: \n Size of collectTrueAttempt is: {} \n and Size of collectTrueDb is: {}",
-                                collectTrueAttempt.size(), collectTrueDb.size());
-                        correct.getAndIncrement();
+                        } else if (collectTrueAttempt.size() == 1 && collectTrueDb.size() == 1
+                                && Objects.equals(collectTrueAttempt.get(0).getId(), collectTrueDb.get(0).getId())) {
+                            log.info("Size == 1: \n Size of collectTrueAttempt is: {} \n and Size of collectTrueDb is: {}",
+                                    collectTrueAttempt.size(), collectTrueDb.size());
+                            correct.getAndIncrement();
+                        }
                     }
-                }
-            })
+                })
         );
 
 
-        float percetCorrect = Float.parseFloat(String.valueOf(correct)) / Float.parseFloat(String.valueOf(correctAnswersFromDb));
-        log.info("Correct answered: {}% ", percetCorrect * 100);
-        log.info("resut is: " + correct);
+        float percentCorrect = Float.parseFloat(String.valueOf(correct)) / Float.parseFloat(String.valueOf(correctAnswersFromDb));
+        log.info("Correct answered: {}% ", percentCorrect * 100);
+        log.info("result is: " + correct);
+        return percentCorrect;
+    }
 
+    public QuizDto getQuizById(Long id) {
+
+        return mapper.convertToQuizDto(quizRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Quiz was not found", ErrorType.QUIZ_DOES_NOT_EXIST)));
+
+    }
+
+    public void updateTitleOrDesc(QuizDto quizDto) {
+
+        Quiz quiz = quizRepository.getReferenceById(quizDto.getId());
+        quiz.setName(quizDto.getName());
+        quiz.setDescription(quizDto.getDescription());
+        quizRepository.save(quiz);
     }
 }

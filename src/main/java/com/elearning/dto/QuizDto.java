@@ -18,7 +18,7 @@ import java.util.Set;
 public class QuizDto implements Serializable {
     private Long id;
     private List<Question> questions;
-    private Timestamp startTime;
-    private Timestamp endTime;
-    private boolean isOpen;
+    private String name;
+    private String description;
+    private Timestamp createdDate;
 }

@@ -9,13 +9,13 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @ToString
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
 
 @Entity
 @Table(name = "quiz")
@@ -30,9 +30,10 @@ public class Quiz {
     @ToString.Exclude
     private List<Question> questions = new ArrayList<>();
 
-    private Timestamp startTime;
-    private Timestamp endTime;
-    private boolean isOpen;
+    private String name;
+    private String description;
+
+    private Timestamp createdDate;
 
     @ManyToOne()
     @JoinColumn(name = "training_id")
@@ -62,28 +63,4 @@ public class Quiz {
         question.setQuiz(null);
     }
 
-    public void setQuestions(List<Question> questions) {
-        this.questions = questions;
-        questions.forEach(question -> question.setQuiz(this));
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setStartTime(Timestamp startTime) {
-        this.startTime = startTime;
-    }
-
-    public void setEndTime(Timestamp endTime) {
-        this.endTime = endTime;
-    }
-
-    public void setOpen(boolean open) {
-        isOpen = open;
-    }
-
-    public void setTraining(Training training) {
-        this.training = training;
-    }
 }
