@@ -19,8 +19,10 @@
             <td><b>Quiz Id</b> </td>
             <td><b>Title</b> </td>
             <td><b>Description</b> </td>
+            <td><b>Minimum score to graduate(%)</b> </td>
             <td><b>Delete Quiz</b> </td>
             <td><b>Update Questions</b> </td>
+            <td><b>Update Quiz Details</b> </td>
         </tr>
         </thead>
         <tbody>
@@ -28,10 +30,11 @@
             <td th:text="${quiz.id}"></td>
             <td th:text="${quiz.name}"></td>
             <td th:text="${quiz.description}"></td>
+            <td th:text="${quiz.expectedPercent} + '%'"></td>
 
             <td><a href="#" th:href="@{'/deleteQuiz/' + ${quiz.id}}">Delete Quiz</a></td>
             <td><a href="#" th:href="@{'/quiz/' + ${quiz.id} + '/questions' }">Update Questions in quiz</a></td>
-            <td><a href="#" th:href="@{'/getQuizById/' + ${quiz.id} }">Update Title/Description</a></td>
+            <td><a href="#" th:href="@{'/getQuizById/' + ${quiz.id} }">Update quiz details</a></td>
         </tr>
         </tbody>
     </table>

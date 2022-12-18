@@ -17,12 +17,13 @@ public class EvaluationDetailsDto {
 
     private Long id;
 
-
+    private String username;
     private Long trainingId;
+    private Long quizId;
 
     private Timestamp startTime;
     private Timestamp endTime;
-    private int totalQuizDuration;
+    private Long quizDuration;
     private float quizPercentCorrect;
     private boolean graduated;
     private int numberOfAttempts;

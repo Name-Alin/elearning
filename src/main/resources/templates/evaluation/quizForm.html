@@ -27,6 +27,20 @@
         <input type="text" id="quiz_description" th:field="*{description}">
 
         <br>
+        <label for="quiz_training">Assign To Training</label>
+        <select id="quiz_training" th:field="*{trainingId}" multiple="multiple">
+            <option value=""></option>
+            <option th:each="training : ${trainings}"
+                    th:value="${training.id}" th:text="${training.trainingTitle}"></option>
+        </select>
+
+        <label for="expectedPercentCorrect">Set minimum score to graduate(%)</label>
+        <select id="expectedPercentCorrect" name="expectedPercent">
+            <option th:each="i : ${#numbers.sequence(50, 100)}" th:value="${i}" th:text="${i}"
+                    th:selected="${i==75}"></option>
+        </select>
+
+        <br>
         <label for="question">Question text</label>
         <br>
         <input type="text" id="question" th:each="question, itemStat : *{questions}"

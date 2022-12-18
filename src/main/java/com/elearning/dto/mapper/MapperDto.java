@@ -4,6 +4,7 @@ import com.elearning.dto.*;
 import com.elearning.model.authentication.Role;
 import com.elearning.model.authentication.User;
 import com.elearning.model.evaluation.Answer;
+import com.elearning.model.evaluation.EvaluationDetails;
 import com.elearning.model.evaluation.Question;
 import com.elearning.model.evaluation.Quiz;
 import com.elearning.model.training.Training;
@@ -108,6 +109,7 @@ public class MapperDto {
                 .questions(quiz.getQuestions())
                 .name(quiz.getName())
                 .description(quiz.getDescription())
+                .expectedPercent(quiz.getExpectedPercent())
                 .createdDate(quiz.getCreatedDate())
                 .build();
     }
@@ -120,6 +122,7 @@ public class MapperDto {
                 .questions(quizDto.getQuestions())
                 .name(quizDto.getName())
                 .description(quizDto.getDescription())
+                .expectedPercent(quizDto.getExpectedPercent())
                 .createdDate(quizDto.getCreatedDate())
                 .build();
     }
@@ -145,5 +148,30 @@ public class MapperDto {
                 .build();
     }
 
+    public EvaluationDetailsDto convertToEvaluationDetailsDto(EvaluationDetails evaluationDetails){
+        if (evaluationDetails == null)
+            return null;
+        return EvaluationDetailsDto.builder()
+                .graduated(evaluationDetails.isGraduated())
+                .quizPercentCorrect(evaluationDetails.getQuizPercentCorrect())
+                .quizDuration(evaluationDetails.getQuizDuration())
+                .username(evaluationDetails.getUser().getUsername())
+                .trainingId(evaluationDetails.getTrainingId())
+                .quizId(evaluationDetails.getQuizId())
+                .build();
+    }
+
+    public EvaluationDetails convertToEvaluationDetailsEntity(EvaluationDetailsDto evaluationDetailsDto){
+        if (evaluationDetailsDto == null)
+            return null;
+        return EvaluationDetails.builder()
+                .graduated(evaluationDetailsDto.isGraduated())
+                .quizPercentCorrect(evaluationDetailsDto.getQuizPercentCorrect())
+                .trainingId(evaluationDetailsDto.getTrainingId())
+                .quizId(evaluationDetailsDto.getQuizId())
+                .startTime(evaluationDetailsDto.getStartTime())
+                .endTime(evaluationDetailsDto.getEndTime())
+                .build();
+    }
 
 }

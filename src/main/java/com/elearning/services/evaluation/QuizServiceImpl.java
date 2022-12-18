@@ -10,14 +10,17 @@ import com.elearning.model.evaluation.Quiz;
 import com.elearning.repositories.QuestionRepository;
 import com.elearning.repositories.QuizRepository;
 import com.elearning.repositories.QuizRepositoryImpl;
+import com.elearning.repositories.TrainingRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -33,6 +36,8 @@ public class QuizServiceImpl {
     QuestionRepository questionRepository;
     @Autowired
     MapperDto mapper;
+    @Autowired
+    TrainingRepository trainingRepository;
 
 //    public QuizServiceImpl(QuizRepository quizRepository, QuizRepositoryImpl quizRepositoryImpl, MapperDto mapper) {
 //        this.quizRepository = quizRepository;
@@ -50,6 +55,11 @@ public class QuizServiceImpl {
         Quiz quiz = mapper.convertToQuizEntity(quizDto);
         quizDto.getQuestions().forEach(quiz::addQuestion);
         quiz.getQuestions().forEach(q -> q.getAnswers().forEach(q::addAnswer));
+
+        if (quizDto.getTrainingId() != null) {
+            quiz.setTraining(trainingRepository.getReferenceById(quizDto.getTrainingId()));
+        }
+        quiz.setCreatedDate(new Timestamp(System.currentTimeMillis()));
 
         log.info(quizDto.getQuestions().toString());
         quiz.getQuestions().forEach(l -> l.getAnswers().forEach(g -> log.info(String.valueOf(g))));
@@ -115,14 +125,23 @@ public class QuizServiceImpl {
         float percentCorrect = Float.parseFloat(String.valueOf(correct)) / Float.parseFloat(String.valueOf(correctAnswersFromDb));
         log.info("Correct answered: {}% ", percentCorrect * 100);
         log.info("result is: " + correct);
-        return percentCorrect;
+        return percentCorrect * 100;
     }
 
     public QuizDto getQuizById(Long id) {
+        Quiz quiz = quizRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Quiz was not found", ErrorType.QUIZ_DOES_NOT_EXIST));
+        QuizDto quizDto = mapper.convertToQuizDto(quiz);
 
-        return mapper.convertToQuizDto(quizRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Quiz was not found", ErrorType.QUIZ_DOES_NOT_EXIST)));
+        try {
+            if (quiz.getTraining().getId() != null) {
+                quizDto.setTrainingId(quiz.getTraining().getId());
+            }
+        } catch (Exception ex) {
+            log.info(ex.toString());
+        }
 
+        return quizDto;
     }
 
     public void updateTitleOrDesc(QuizDto quizDto) {
@@ -130,6 +149,28 @@ public class QuizServiceImpl {
         Quiz quiz = quizRepository.getReferenceById(quizDto.getId());
         quiz.setName(quizDto.getName());
         quiz.setDescription(quizDto.getDescription());
+        quiz.setExpectedPercent(quizDto.getExpectedPercent());
+
+        if (quizDto.getTrainingId() != null) {
+            quiz.setTraining(trainingRepository.getReferenceById(quizDto.getTrainingId()));
+        } else {
+            quiz.setTraining(null);
+        }
+
         quizRepository.save(quiz);
+    }
+
+    public List<QuizDto> getAllQuizzesForTraining(Long trainingId) {
+        List<QuizDto> quizDtos = new ArrayList<>();
+
+        try {
+
+            quizDtos.addAll(quizRepository.getQuizzesForTraining(trainingRepository.getReferenceById(trainingId))
+                    .stream().map(mapper::convertToQuizDto).collect(Collectors.toList()));
+
+        } catch (Exception ex) {
+            log.info(ex.toString());
+        }
+        return quizDtos;
     }
 }

@@ -34,14 +34,13 @@ public class EvaluationDetails {
     @Column(name = "training_id")
     private Long trainingId;
 
-//    private Timestamp startTime;
-//    private Timestamp endTime;
-    private int totalQuizDuration;
-//  private int durationPerQuestion;
+    private Timestamp startTime;
+    private Timestamp endTime;
+    private Long quizDuration;
     private float quizPercentCorrect;
     private boolean graduated;
+//  private int durationPerQuestion;
 //  private int timePerformance;
-    private int numberOfAttempts;
 //  private String wrongAnswers;
 //  private String goodAnswers;
 

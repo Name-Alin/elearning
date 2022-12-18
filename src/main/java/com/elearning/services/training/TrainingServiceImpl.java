@@ -39,6 +39,14 @@ public class TrainingServiceImpl {
         return trainingRepository.findAll().stream().map(mapper::convertToTrainingDto).collect(Collectors.toList());
     }
 
+    public List<TrainingDto> getValidTrainings() {
+
+        List<Training> validTrainings = trainingRepository.findAll().stream().filter(training -> training.getQuiz().size() > 0).collect(Collectors.toList());
+        log.info("Valid trainings size: " + validTrainings.size());
+
+        return validTrainings.stream().map(mapper::convertToTrainingDto).collect(Collectors.toList());
+    }
+
     public void saveTraning(TrainingDto trainingDto) throws IOException {
         if (!trainingDto.getMultipartFile().isEmpty()) {
 
@@ -116,9 +124,9 @@ public class TrainingServiceImpl {
                 File previousFile = new File(String.valueOf(Path.of(trainingBeforeUpdate.getPathToTraining())));
                 String[] fileName = trainingBeforeUpdate.getPathToTraining().split("\\\\");
                 File newLocation = new File("./video_trainings/"
-                        + trainingDto.getTrainingTitle().replaceAll("\\s+","_"));
+                        + trainingDto.getTrainingTitle().replaceAll("\\s+", "_"));
                 File newFiles = new File("./video_trainings/"
-                        + trainingDto.getTrainingTitle().replaceAll("\\s+","_") + "/" + fileName[3]);
+                        + trainingDto.getTrainingTitle().replaceAll("\\s+", "_") + "/" + fileName[3]);
                 newLocation.mkdirs();
 
                 log.info(previousFile.getCanonicalPath());
@@ -184,17 +192,13 @@ public class TrainingServiceImpl {
             String[] ranges = rangeHeader.split("-");
             Long rangeStart = Long.parseLong(ranges[0].substring(6));
             Long rangeEnd;
-            if (ranges.length > 1)
-            {
+            if (ranges.length > 1) {
                 rangeEnd = Long.parseLong(ranges[1]);
-            }
-            else
-            {
+            } else {
                 rangeEnd = fileSize - 1;
             }
 
-            if (fileSize < rangeEnd)
-            {
+            if (fileSize < rangeEnd) {
                 rangeEnd = fileSize - 1;
             }
 
@@ -207,19 +211,17 @@ public class TrainingServiceImpl {
             final Long _rangeEnd = rangeEnd;
             responseStream = os -> {
                 RandomAccessFile file = new RandomAccessFile(filePathString, "r");
-                try (file)
-                {
+                try (file) {
                     long pos = rangeStart;
                     file.seek(pos);
-                    while (pos < _rangeEnd)
-                    {
+                    while (pos < _rangeEnd) {
                         file.read(buffer);
                         os.write(buffer);
                         pos += buffer.length;
                     }
                     os.flush();
+                } catch (Exception e) {
                 }
-                catch (Exception e) {}
             };
 
             return new ResponseEntity<StreamingResponseBody>

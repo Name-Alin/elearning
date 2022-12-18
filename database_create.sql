@@ -1,7 +1,7 @@
 create table answer (id bigint not null auto_increment, content varchar(255), correct bit not null, question_id bigint not null, primary key (id)) engine=InnoDB;
-create table evaluation_details (id bigint not null auto_increment, graduated bit not null, number_of_attempts integer not null, quiz_id bigint, quiz_percent_correct float not null, total_quiz_duration integer not null, training_id bigint, user_id bigint, primary key (id)) engine=InnoDB;
+create table evaluation_details (id bigint not null auto_increment, end_time datetime(6), graduated bit not null, quiz_duration bigint, quiz_id bigint, quiz_percent_correct float not null, start_time datetime(6), training_id bigint, user_id bigint, primary key (id)) engine=InnoDB;
 create table question (id bigint not null auto_increment, content varchar(255) not null, quiz_id bigint not null, primary key (id)) engine=InnoDB;
-create table quiz (id bigint not null auto_increment, created_date datetime(6), description varchar(255), name varchar(255), training_id bigint, primary key (id)) engine=InnoDB;
+create table quiz (id bigint not null auto_increment, created_date datetime(6), description varchar(255), expected_percent_correct float, name varchar(255), training_id bigint, primary key (id)) engine=InnoDB;
 create table roles (role_id bigint not null auto_increment, name varchar(255), primary key (role_id)) engine=InnoDB;
 create table training (id bigint not null auto_increment, description varchar(255), path_to_training varchar(255), training_title varchar(255), primary key (id)) engine=InnoDB;
 create table users (user_id bigint not null auto_increment, enabled bit not null, first_name varchar(255), is_supervised_by bigint, last_name varchar(255), password varchar(255), username varchar(255), primary key (user_id)) engine=InnoDB;

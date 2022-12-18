@@ -32,7 +32,8 @@ public class Quiz {
 
     private String name;
     private String description;
-
+    @Column(name = "expected_percent_correct")
+    private float expectedPercent;
     private Timestamp createdDate;
 
     @ManyToOne()

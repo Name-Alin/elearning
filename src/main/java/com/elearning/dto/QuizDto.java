@@ -20,5 +20,7 @@ public class QuizDto implements Serializable {
     private List<Question> questions;
     private String name;
     private String description;
+    private float expectedPercent;
     private Timestamp createdDate;
+    private Long trainingId;
 }

@@ -26,7 +26,7 @@ public class TrainingController {
 
     @GetMapping("/")
     public String getIndexPage(Model model) {
-        List<TrainingDto> trainingDtos = trainingService.getAllTrainings();
+        List<TrainingDto> trainingDtos = trainingService.getValidTrainings();
         trainingDtos.forEach(f -> {
                     f.setPathToTraining(f.getPathToTraining().substring(1));
                     log.info(f.getPathToTraining());

@@ -5,7 +5,9 @@ import com.elearning.dto.EvaluationDetailsDto;
 import com.elearning.dto.QuizDto;
 import com.elearning.model.evaluation.Answer;
 import com.elearning.model.evaluation.Question;
+import com.elearning.services.evaluation.EvaluationDetailsServiceImpl;
 import com.elearning.services.evaluation.QuizServiceImpl;
+import com.elearning.services.training.TrainingServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,14 +16,11 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.security.cert.CertPath;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -33,6 +32,10 @@ public class QuizController {
 
     @Autowired
     EvaluationDetailsDto evaluationDetails;
+    @Autowired
+    TrainingServiceImpl trainingService;
+    @Autowired
+    EvaluationDetailsServiceImpl evaluationDetailsService;
 
     QuizServiceImpl quizService;
 
@@ -58,7 +61,7 @@ public class QuizController {
         questionDto.setAnswers(answerDtos);
         questions.add(questionDto);
         quizDto.setQuestions(questions);
-//        model.addAttribute("quizDto", quizDto);
+        model.addAttribute("trainings", trainingService.getAllTrainings());
 
         return "evaluation/quizForm";
     }
@@ -88,15 +91,16 @@ public class QuizController {
     }
 
     @GetMapping("/getQuizById/{id}")
-    public String getQuizById(@PathVariable("id") Long id, Model model){
+    public String getQuizById(@PathVariable("id") Long id, Model model) {
 
-        model.addAttribute("quizDto",quizService.getQuizById(id));
+        model.addAttribute("quizDto", quizService.getQuizById(id));
+        model.addAttribute("trainings", trainingService.getAllTrainings());
 
         return "evaluation/quizTitleOrDescUpdate";
     }
 
     @PostMapping("/updateTitleOrDesc")
-    public String updateTitleOrDesc(@Valid QuizDto quizDto){
+    public String updateTitleOrDesc(@Valid QuizDto quizDto) {
 
         quizService.updateTitleOrDesc(quizDto);
 
@@ -104,24 +108,33 @@ public class QuizController {
         return "redirect:/showQuizzes";
     }
 
-    @GetMapping("/attemptQuiz")
-    public String attemptQuiz(Model model, HttpServletRequest httpServletRequest) {
+    @GetMapping("/attemptQuiz/{id}")
+    public String attemptQuiz(Model model, HttpServletRequest httpServletRequest, @PathVariable("id") Long trainingId) {
 
-        List<QuizDto> quiz = quizService.getAllQuizzes();
-        Random random = new Random();
-        QuizDto quizDto = quiz.get(random.nextInt(quiz.size()));
-        List<AnswerDto> quizDto1 = new ArrayList<>();
-        log.info("Attempted quiz with id: {}", quizDto.getId());
-        model.addAttribute("attemptedQuiz", quizDto);
-        model.addAttribute("quizResult", quizDto1);
+        List<QuizDto> quiz = quizService.getAllQuizzesForTraining(trainingId);
+        if (quiz.size() != 0) {
+            Random random = new Random();
+            QuizDto quizDto = quiz.get(random.nextInt(quiz.size()));
+            List<AnswerDto> quizDto1 = new ArrayList<>();
+            log.info("Attempted quiz with id: {}", quizDto.getId());
+            model.addAttribute("attemptedQuiz", quizDto);
+            model.addAttribute("quizResult", quizDto1);
 
-        log.info("User is: {}", httpServletRequest.getUserPrincipal().getName());
-        Date date = new Date();
-        log.info("The time is: " + new Timestamp(System.currentTimeMillis()));
+            log.info("User is: {}", httpServletRequest.getUserPrincipal().getName());
+            evaluationDetails.setUsername(httpServletRequest.getUserPrincipal().getName());
+            evaluationDetails.setTrainingId(trainingId);
 
-        evaluationDetails.setStartTime(new Timestamp(System.currentTimeMillis()));
+            log.info("Attempting quiz with id: {}", quizDto.getId());
+            evaluationDetails.setQuizId(quizDto.getId());
 
-        return "takingTraining/attemptQuiz";
+            log.info("Start time is: " + new Timestamp(System.currentTimeMillis()));
+            evaluationDetails.setStartTime(new Timestamp(System.currentTimeMillis()));
+
+            return "takingTraining/attemptQuiz";
+        } else {
+            return "404error";
+        }
+
     }
 
     @PostMapping("/submit")
@@ -129,17 +142,13 @@ public class QuizController {
 
         evaluationDetails.setEndTime(new Timestamp(System.currentTimeMillis()));
         log.info(String.valueOf(evaluationDetails.getEndTime()));
-//        long l1 = Long.parseLong(String.valueOf(evaluationDetails.getEndTime()));
-//        long l2 = Long.parseLong(String.valueOf(evaluationDetails.getStartTime()));
-//        long totalDuration = l1 - l2;
-//        log.info(String.valueOf(totalDuration));
-//        evaluationDetails.setTotalQuizDuration();
+
         log.info(quizResult.toString());
         quizResult.getQuestions().forEach(l -> log.info(l.getAnswers().toString()));
 //        answerDto.forEach(l->log.info("is correct?"+l.isCorrect()));
         log.info("is correct?");
         evaluationDetails.setQuizPercentCorrect(quizService.getQuizResult(quizResult));
-
+        evaluationDetailsService.saveEvaluation(evaluationDetails);
         return "redirect:/";
     }
 
