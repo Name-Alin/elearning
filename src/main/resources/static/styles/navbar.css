@@ -1,0 +1,42 @@
+
+    .sidenav {
+      position: fixed;
+      background-color: #f1f1f1;
+      overflow-x: hidden;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 280px;
+      padding-top: 20px;
+    }
+
+    .main {
+      margin-top: 40px;
+      margin-bottom: 20px;
+      margin-right: 15px;
+      margin-left: 290px; /* Same as the width of the sidebar */
+      padding: 0px 10px;
+      z-index: 1;
+    }
+
+    .link-light:hover {
+      color: #fff !important;
+      text-decoration: none;
+      opacity: 1;
+    }
+
+    .link-light {
+      color: #fff !important;
+      text-decoration: none;
+      opacity: 1;
+    }
+
+    .img-responsive{
+        width:  400px;
+        height: 400px;
+        object-fit: cover;
+    }
+
+
+

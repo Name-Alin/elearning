@@ -27,7 +27,7 @@ alter table question add constraint FK_quiz foreign key (quiz_id) references qui
 
 
 create table evaluation_details (id bigint not null auto_increment, end_time datetime(6), graduated bit not null, quiz_duration bigint, quiz_id bigint, quiz_percent_correct float not null, start_time datetime(6), training_id bigint, user_id bigint, primary key (id)) engine=InnoDB;
-create table training (id bigint not null auto_increment, description varchar(255), path_to_training varchar(255), training_title varchar(255), primary key (id)) engine=InnoDB;
+create table training (id bigint not null auto_increment, description varchar(255), path_to_image varchar(255), path_to_training varchar(255), training_title varchar(255), primary key (id)) engine=InnoDB;
 
 alter table quiz add constraint FK_quiz_training foreign key (training_id) references training (id);
 alter table evaluation_details add constraint FK_eval_training foreign key (training_id) references training (id);

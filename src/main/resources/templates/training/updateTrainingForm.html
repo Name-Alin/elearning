@@ -32,7 +32,12 @@
             <br>
             <input type="file" id="multipartFile" th:field="*{multipartFile}">
 
-            <input type="file" id="pathToTraining" th:field="${training.pathToTraining}">
+<!--            <input type="file" id="pathToTraining" th:field="${training.pathToTraining}">-->
+
+            <br>
+            <label for="pathToImage">Update image for this training</label>
+            <br>
+            <input type="file" id="pathToImage" th:field="*{imageFile}">
         </fieldset>
     </form>
 

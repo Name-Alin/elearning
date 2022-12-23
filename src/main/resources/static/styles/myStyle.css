@@ -1,0 +1,42 @@
+
+    .header {
+        position: fixed;
+        overflow-x: hidden;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 280px;
+        padding-top: 20px;
+        background-color: rgb(87, 138, 233);
+        
+    }
+
+.main {
+  margin-left: 280px; /* Same as the width of the sidebar */
+  padding: 0px 10px;
+}
+
+    .nav {
+        background-color: inherit;
+    }
+
+    .navigation-links{
+        text-align:left;
+    }
+    
+
+    .main {
+        text-align: center;
+        }
+        
+    .img{
+        max-width: 200px;
+
+        }
+
+
+
+ 
+
+    

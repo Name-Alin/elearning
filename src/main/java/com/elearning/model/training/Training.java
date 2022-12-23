@@ -23,6 +23,7 @@ public class Training {
     private String trainingTitle;
     private String description;
     private String pathToTraining;
+    private String pathToImage;
 
     @OneToMany(mappedBy = "training")
     @ToString.Exclude

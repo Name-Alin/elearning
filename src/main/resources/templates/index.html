@@ -5,87 +5,69 @@
 >
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Home Page</title>
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"
           th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}">
 
-    <script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
+    <link rel="stylesheet" th:href="@{/styles/navbar.css}" >
+
+
 
     <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-            crossorigin="anonymous" th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
+<!--    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"-->
+<!--            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"-->
+<!--            crossorigin="anonymous" th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>-->
+
 </head>
 <body>
 <div>
-    <div>
 
-<div sec:authorize="isAuthenticated()">
-    Welcome <b><span sec:authentication="name">Username</span></b>
-    &nbsp;
-    <i><span sec:authentication="principal.authorities">Roles</span></i>
-</div>
-<form th:action="@{/logout}" method="post">
-    <input type="submit" value="Logout" />
-</form>
-
-<div class="page-title">E-Learning platform Demo</div>
-<div class="demo-container">
-    <h3>Demo content</h3>
-    <ul sec:authorize="hasAnyAuthority('administrator', 'supervisor')">
-        <li sec:authorize="hasAuthority('administrator')" th:href="@{/userform}">Admin pages</li>
-        <li sec:authorize="hasAuthority('supervisor')">Reports</li>
-    </ul>
-</div>
+        <div th:replace="navbar.html :: navbar"></div>
 
 
 <!--<div sec:authorize="hasAuthority('ROLE_ADMIN')">-->
 <!--    <a th:href="@{/quiz}">Create New Product</a>-->
 <!--</div>-->
+<div class="main">
 
-<div>
-    <a th:href="@{/quizForm}">Quiz Page</a>
-    <br>
-    <a th:href="@{/showQuizzes}">Quiz CRUD Page</a>
-    <br>
-    <a th:href="@{/showTrainingForm}">Training CRUD Page</a>
+        <div class="row">
+            <div class="col-sm-4" th:each="training : ${trainings}">
+                <div class="panel panel-primary" >
+                    <div class="panel-body">
+                        <a href="#" th:href="@{ '/training/' + ${training.id} }">
+                            <img class="img-responsive" src="" th:src="@{${training.pathToImage}}" alt="Image">
+                        </a>
+                    </div>
+
+
+                    <div class="panel-heading" >
+                        <a href="#" class="link-light" th:href="@{ '/training/' + ${training.id} }" th:text="${training.trainingTitle}"></a>
+                    </div>
+                    <!--                <div class="panel-footer">Buy 50 mobiles and get a gift card</div>-->
+
+                </div>
+            </div>
+        </div>
+
+
+</div>
 </div>
 
-<div>
-    <a th:href="@{/userform}">User CRUD Page</a>
-</div>
-    </div>
 
 
-    <table id="trainingTable" class="table table-striped table-primary">
-        <thead>
-        <tr>
-            <td><b>Training Id</b></td>
-            <td><b>Training Title</b></td>
-            <td><b>Training Description</b></td>
-            <td><b>Training Path</b></td>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"
+        integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+        crossorigin="anonymous"></script>
 
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="training : ${trainings}">
-            <td th:text="${training.trainingTitle}"></td>
-            <td th:text="${training.description}"></td>
-            <td th:text="${training.pathToTraining}"></td>
-            <td>
-               <a href="#" th:href="@{ '/training/' + ${training.id} }">  Start this training </a>
-            </td>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.4.1/cjs/popper.min.js"
+        integrity="sha256-T3bYsIPyOLpEfeZOX4M7J59ZoDMzuYFUsPiSN3Xcc2M=" crossorigin="anonymous"></script>
 
-        </tr>
-        </tbody>
-    </table>
-<!--    <video width="320" height="240" controls>-->
-<!--        <source th:src="@{'/video_training/' + ${training.id}}" type="video/mp4" />-->
-<!--    </video>-->
-</div>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
 
 </body>
 </html>

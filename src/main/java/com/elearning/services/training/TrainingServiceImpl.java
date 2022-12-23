@@ -53,12 +53,13 @@ public class TrainingServiceImpl {
             Training training = mapper.convertToTrainingEntity(trainingDto);
             File file = new File("./video_trainings/"
                     + trainingDto.getTrainingTitle().replaceAll("\\s+", "_") + "/"
-                    + Objects.requireNonNull(trainingDto.getMultipartFile().getOriginalFilename()).replaceAll("\\s+", ""));
+                    + Objects.requireNonNull(trainingDto.getMultipartFile().getOriginalFilename()).replaceAll("\\s+", "_"));
             file.getParentFile().mkdirs();
             file.createNewFile();
             trainingDto.getMultipartFile().transferTo(file.getAbsoluteFile());
 
             training.setPathToTraining(file.getPath());
+            training.setPathToImage(saveImageInFolder(trainingDto));
 
             trainingRepository.save(training);
             log.info("Training saved to: {}", file.getPath());
@@ -67,6 +68,19 @@ public class TrainingServiceImpl {
         }
 
 
+    }
+
+    private String saveImageInFolder(TrainingDto trainingDto) throws IOException {
+        if (!trainingDto.getImageFile().isEmpty()){
+            File imageFile = new File("./src/main/resources/static/images/"
+                    + Objects.requireNonNull(trainingDto.getImageFile().getOriginalFilename()).replaceAll("\\s+", "_"));
+            imageFile.createNewFile();
+            trainingDto.getImageFile().transferTo(imageFile.getAbsoluteFile());
+           return imageFile.getPath();
+
+        }else {
+            return "";
+        }
     }
 
     public void deleteTraining(Long id) {

@@ -29,9 +29,12 @@ public class TrainingController {
         List<TrainingDto> trainingDtos = trainingService.getValidTrainings();
         trainingDtos.forEach(f -> {
                     f.setPathToTraining(f.getPathToTraining().substring(1));
+                    f.setPathToImage(f.getPathToImage().substring(27));
                     log.info(f.getPathToTraining());
+                    log.info(f.getPathToImage());
                 }
         );
+
         model.addAttribute("trainings", trainingDtos);
 
         return "index";

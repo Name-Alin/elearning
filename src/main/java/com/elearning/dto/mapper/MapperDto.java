@@ -135,6 +135,7 @@ public class MapperDto {
                 .trainingTitle(training.getTrainingTitle())
                 .description(training.getDescription())
                 .pathToTraining(training.getPathToTraining())
+                .pathToImage(training.getPathToImage())
                 .build();
     }
 

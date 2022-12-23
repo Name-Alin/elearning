@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head th:fragment="headerfiles">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"
+          th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}">
+
+</head>
+
+<body>
+<div class="col-sm-3 sidenav" th:fragment="navbar">
+<header class="header" >
+
+    <nav >
+
+        <div sec:authorize="isAuthenticated()">
+            Welcome <b><span sec:authentication="name">Username</span></b>
+            &nbsp;
+            <i><span sec:authentication="principal.authorities">Roles</span></i>
+        </div>
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" value="Logout"/>
+        </form>
+
+        <div class="page-title">E-Learning platform Demo</div>
+        <div class="demo-container">
+            <h3>Demo content</h3>
+            <ul sec:authorize="hasAnyAuthority('administrator', 'supervisor')">
+                <li sec:authorize="hasAuthority('administrator')" th:href="@{/userform}">Admin pages</li>
+                <li sec:authorize="hasAuthority('supervisor')">Reports</li>
+            </ul>
+        </div>
+
+
+        <ul class="nav nav-pills nav-stacked ">
+            <li class=""><a th:href="@{/quizForm}">Quiz Page</a></li>
+            <li class=""><a th:href="@{/showQuizzes}">Quiz CRUD Page</a></li>
+            <li class=""><a th:href="@{/showTrainingForm}">Training CRUD Page</a></li>
+            <li class=""><a th:href="@{/userform}">User CRUD Page</a></li>
+        </ul>
+
+
+    </nav>
+</header>
+</div>
+
+<!--	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>-->
+</body>
+</html> 
+

@@ -16,5 +16,7 @@ public class TrainingDto {
     private String trainingTitle;
     private String description;
     private String pathToTraining;
+    private String pathToImage;
     private MultipartFile multipartFile;
+    private MultipartFile imageFile;
 }
