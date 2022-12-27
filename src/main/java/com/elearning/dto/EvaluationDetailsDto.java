@@ -20,6 +20,7 @@ public class EvaluationDetailsDto {
     private String username;
     private Long trainingId;
     private Long quizId;
+    private String trainingName;
 
     private Timestamp startTime;
     private Timestamp endTime;

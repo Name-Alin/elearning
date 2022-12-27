@@ -5,8 +5,10 @@ import com.elearning.dto.mapper.MapperDto;
 import com.elearning.exceptions.ErrorType;
 import com.elearning.exceptions.ResourceNotFoundException;
 import com.elearning.model.authentication.User;
+import com.elearning.repositories.EvaluationDetailsRepository;
 import com.elearning.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +24,9 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final MapperDto mapper;
 
+    @Autowired
+    EvaluationDetailsRepository evaluationDetailsRepository;
+
     public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, MapperDto mapper) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -32,13 +37,14 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void saveOrUpdateUser(UserDto userDto) {
         User user = mapper.convertToUserEntity(userDto);
+        user.setEvaluationDetails(evaluationDetailsRepository.userEvaluations(user));
 //        if (userRepository.findByUsername(user.getUsername()).isPresent()) {
 //            throw new Exception("Username: " + user.getUsername() + " is already present in database");
 //        }
 //        if (user.getId() == null) {
 //            user.setPassword(passwordEncoder.encode(user.getPassword()));
 //        }
-         if (user.getPassword().chars().count() == 60) {
+        if (user.getPassword().chars().count() == 60) {
             log.info("Password count is: {}", user.getPassword().chars().count());
             user.setPassword(user.getPassword());
         } else {
@@ -76,6 +82,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDto> getSupervisorsNames() {
         return userRepository.getSupervisors().stream().map(mapper::convertToUserDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<UserDto> getUsersSupervisedBy(String userName) {
+        User user = userRepository.findByUsername(userName).get();
+        return userRepository.getUsersSupervisedBy(user.getId()).stream().map(mapper::convertToUserDto).collect(Collectors.toList());
     }
 
 }

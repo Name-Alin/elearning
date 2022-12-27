@@ -159,6 +159,8 @@ public class MapperDto {
                 .username(evaluationDetails.getUser().getUsername())
                 .trainingId(evaluationDetails.getTrainingId())
                 .quizId(evaluationDetails.getQuizId())
+                .startTime(evaluationDetails.getStartTime())
+                .endTime(evaluationDetails.getEndTime())
                 .build();
     }
 

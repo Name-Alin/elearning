@@ -60,9 +60,6 @@ public class User {
     }
 
 
-//    public EvaluationDetails getEvaluationDetails() {
-//        return evaluationDetails;
-//    }
 
     public Long getId() {
         return id;
