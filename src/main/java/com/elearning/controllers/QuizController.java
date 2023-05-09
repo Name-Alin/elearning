@@ -43,7 +43,7 @@ public class QuizController {
         this.quizService = quizService;
     }
 
-    @GetMapping("/showQuizzes")
+    @GetMapping("/quiz/show")
     public String getQuizzes(Model model) {
 
         model.addAttribute("quizzes", quizService.getAllQuizzes());
@@ -51,7 +51,7 @@ public class QuizController {
         return "evaluation/showQuizzes";
     }
 
-    @GetMapping("/quizForm")
+    @GetMapping("/quiz/form")
     public String getQuizForm(Model model, Question questionDto, QuizDto quizDto) {
         List<Question> questions = new ArrayList<>();
         List<Answer> answerDtos = new ArrayList<>();
@@ -66,7 +66,7 @@ public class QuizController {
         return "evaluation/quizForm";
     }
 
-    @PostMapping("/createNewQuiz")
+    @PostMapping("/quiz/create")
     @ResponseStatus(HttpStatus.CREATED)
     public String createNewQuiz(@Valid QuizDto quizDto, BindingResult result, HttpServletResponse httpServletResponse) throws IOException {
 
@@ -81,16 +81,17 @@ public class QuizController {
         return "redirect:/quiz/" + id + "/questions";
     }
 
-    @GetMapping("/deleteQuiz/{id}")
+    @GetMapping("/quiz/delete/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public String deleteQuiz(@PathVariable("id") Long id) {
+    public String deleteQuiz(@PathVariable("id") Long id, HttpServletResponse httpServletResponse) throws IOException {
 
         quizService.deleteQuiz(id);
 
-        return "redirect:/showQuizzes";
+        httpServletResponse.sendRedirect("/quiz/show");
+        return "redirect:/quiz/show";
     }
 
-    @GetMapping("/getQuizById/{id}")
+    @GetMapping("/quiz/getById/{id}")
     public String getQuizById(@PathVariable("id") Long id, Model model) {
 
         model.addAttribute("quizDto", quizService.getQuizById(id));
@@ -99,13 +100,13 @@ public class QuizController {
         return "evaluation/quizTitleOrDescUpdate";
     }
 
-    @PostMapping("/updateTitleOrDesc")
+    @PostMapping("/quiz/updateTitleOrDesc")
     public String updateTitleOrDesc(@Valid QuizDto quizDto) {
 
         quizService.updateTitleOrDesc(quizDto);
 
 
-        return "redirect:/showQuizzes";
+        return "redirect:/quiz/show";
     }
 
     @GetMapping("/attemptQuiz/{id}")

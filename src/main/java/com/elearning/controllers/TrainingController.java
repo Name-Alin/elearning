@@ -48,7 +48,7 @@ public class TrainingController {
         return "takingTraining/takingTrainingForm";
     }
 
-    @GetMapping("/showTrainingForm")
+    @GetMapping("/training/showTrainingForm")
     public String showTrainingForm(Model model) {
         TrainingDto trainingDto = new TrainingDto();
         model.addAttribute("trainingDto", trainingDto);
@@ -57,27 +57,27 @@ public class TrainingController {
         return "training/trainingForm";
     }
 
-    @PostMapping("/addTraining")
+    @PostMapping("/training/add")
     @ResponseStatus(HttpStatus.CREATED)
     public String addTraining(@Valid TrainingDto training, HttpServletResponse httpServletResponse) throws IOException {
 
         trainingService.saveTraning(training);
 
-        httpServletResponse.sendRedirect("/showTrainingForm");
-        return "redirect:/showTrainingForm";
+        httpServletResponse.sendRedirect("/training/showTrainingForm");
+        return "redirect:/training/showTrainingForm";
     }
 
-    @GetMapping("/deleteTraining/{id}")
+    @GetMapping("/training/delete/{id}")
     @ResponseStatus(HttpStatus.OK)
     public String deleteTraining(@PathVariable("id") Long id, HttpServletResponse httpServletResponse) throws IOException {
 
         trainingService.deleteTraining(id);
 
-        httpServletResponse.sendRedirect("/showTrainingForm");
-        return "redirect:/showTrainingForm";
+        httpServletResponse.sendRedirect("/training/showTrainingForm");
+        return "redirect:/training/showTrainingForm";
     }
 
-    @GetMapping("/showUpdateForm/{id}")
+    @GetMapping("/training/showUpdateForm/{id}")
     public String showUpdateForm(@PathVariable("id") Long id, Model model) {
 
         TrainingDto trainingDto = new TrainingDto();
@@ -92,7 +92,7 @@ public class TrainingController {
 
         trainingService.updateTraining(trainingDto);
 
-        return "redirect:/showTrainingForm";
+        return "redirect:/training/showTrainingForm";
     }
 
 }

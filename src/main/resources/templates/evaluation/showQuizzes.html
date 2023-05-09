@@ -11,7 +11,7 @@
     <h1>Quizzes</h1>
     <a href="/">IndexPage</a>
 <br>
-    <a th:href="@{/quizForm}">Create New Quiz</a>
+    <a th:href="@{/quiz/form}">Create New Quiz</a>
 
     <table id="usersTable" class="table table-striped table-primary">
         <thead>
@@ -32,9 +32,9 @@
             <td th:text="${quiz.description}"></td>
             <td th:text="${quiz.expectedPercent} + '%'"></td>
 
-            <td><a href="#" th:href="@{'/deleteQuiz/' + ${quiz.id}}">Delete Quiz</a></td>
+            <td><a href="#" th:href="@{'/quiz/delete/' + ${quiz.id}}">Delete Quiz</a></td>
             <td><a href="#" th:href="@{'/quiz/' + ${quiz.id} + '/questions' }">Update Questions in quiz</a></td>
-            <td><a href="#" th:href="@{'/getQuizById/' + ${quiz.id} }">Update quiz details</a></td>
+            <td><a href="#" th:href="@{'/quiz/getById/' + ${quiz.id} }">Update quiz details</a></td>
         </tr>
         </tbody>
     </table>

@@ -22,7 +22,7 @@
 
       <div class="row">
 
-<form action="#" th:action="@{/adduser}" th:object="${user}" method="post">
+<form action="#" th:action="@{/user/add}" th:object="${user}" method="post">
  
 <div class="form-group">
     <label for="username">UserName</label>
@@ -75,8 +75,8 @@
         <td th:text="${user1.username}" />
         <td th:text="${user1.roles[0].name}" />
         <td th:text="${user1.isSupervisedBy}" />
-        <td><a href="#" th:href="@{'deleteUser/' + ${user1.id}}">Delete</a></td>
-        <td><a href="#" th:href="@{'showUserById/' + ${user1.id}}">Update</a></td>
+        <td><a href="#" th:href="@{'/user/delete/' + ${user1.id}}">Delete</a></td>
+        <td><a href="#" th:href="@{'/user/showById/' + ${user1.id}}">Update</a></td>
     </tr>
     </tbody>
     </table>

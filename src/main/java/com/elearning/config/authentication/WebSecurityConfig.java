@@ -30,7 +30,10 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/userform").hasRole("ADMIN")
+        http.authorizeRequests()
+                .antMatchers("/userform","/user/**").hasRole("ADMIN")
+                .antMatchers("/training/**","/showEvaluations"
+                        ,"/quiz/**","/question/**").hasRole("SUPERVISOR")
 //                .and().authorizeRequests().antMatchers("/").authenticated()
                 .and().authorizeRequests().anyRequest().authenticated()
                 .and().formLogin().permitAll()

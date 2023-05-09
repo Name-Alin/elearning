@@ -37,10 +37,11 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void saveOrUpdateUser(UserDto userDto) {
         User user = mapper.convertToUserEntity(userDto);
-        user.setEvaluationDetails(evaluationDetailsRepository.userEvaluations(user));
-//        if (userRepository.findByUsername(user.getUsername()).isPresent()) {
+
+        if (userRepository.findByUsername(user.getUsername()).isPresent()) {
 //            throw new Exception("Username: " + user.getUsername() + " is already present in database");
-//        }
+            user.setEvaluationDetails(evaluationDetailsRepository.userEvaluations(user));
+        }
 //        if (user.getId() == null) {
 //            user.setPassword(passwordEncoder.encode(user.getPassword()));
 //        }

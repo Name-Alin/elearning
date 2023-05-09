@@ -20,7 +20,7 @@ public class RoleController {
         this.roleService = roleService;
     }
 
-    @GetMapping("/getRoles")
+    @GetMapping("/user/getRoles")
     public Set<RoleDto> getRoles(Model model) {
         return roleService.getAllRoles();
 //        model.addAttribute("roles",roleService.getAllRoles());

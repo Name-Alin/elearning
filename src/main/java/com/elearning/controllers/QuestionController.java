@@ -44,7 +44,7 @@ public class QuestionController {
         return "evaluation/quizQuestions";
     }
 
-    @PostMapping("createOrSaveQuestion")
+    @PostMapping("/question/createOrSave")
     public String addQuestion(@Valid QuestionDto questionDto) {
 
         questionService.saveOrUpdateQuestion(questionDto, quizId);
@@ -52,7 +52,7 @@ public class QuestionController {
         return "redirect:/quiz/" + quizId + "/questions";
     }
 
-    @GetMapping("/deleteQuestion/{id}")
+    @GetMapping("/question/delete/{id}")
     public String deleteQuestion(@PathVariable("id") Long questionId) {
 
         questionService.deleteQuestion(questionId);
@@ -60,7 +60,7 @@ public class QuestionController {
         return "redirect:/quiz/" + quizId + "/questions";
     }
 
-    @GetMapping("showQuestion/{id}")
+    @GetMapping("/question/show/{id}")
     public String showSpecificQuestion(@PathVariable("id") Long questionId, Model model, QuestionDto questionDto) {
 
         model.addAttribute("question", questionService.getQuestionById(questionId));

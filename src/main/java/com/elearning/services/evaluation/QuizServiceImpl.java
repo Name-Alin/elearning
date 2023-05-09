@@ -87,16 +87,14 @@ public class QuizServiceImpl {
         AtomicInteger correctAnswersFromDb = new AtomicInteger();
         quizResult.getQuestions().forEach(q -> questionsFromDb.add(questionRepository.getReferenceById(q.getId())));
 
-        quizResult.getQuestions().forEach(q ->
-                questionsFromDb.forEach(qd -> {
-                    if (Objects.equals(qd.getId(), q.getId())) {
+        quizResult.getQuestions().forEach(qFromUI ->
+                questionsFromDb.forEach(qFromDB -> {
+                    if (Objects.equals(qFromDB.getId(), qFromUI.getId())) {
 
-                        List<Answer> collectTrueAttempt = q.getAnswers().stream().filter(Answer::isCorrect).collect(Collectors.toList());
-                        List<Answer> collectTrueDb = qd.getAnswers().stream().filter(Answer::isCorrect).collect(Collectors.toList());
-
+                        List<Answer> collectTrueAttempt = qFromUI.getAnswers().stream().filter(Answer::isCorrect).collect(Collectors.toList());
+                        List<Answer> collectTrueDb = qFromDB.getAnswers().stream().filter(Answer::isCorrect).collect(Collectors.toList());
                         correctAnswersFromDb.getAndAdd(collectTrueDb.size());
 
-                        //if count of db.isCorrect == at.isCorrect && !db.isCorrect == !at.isCorrect -> correct++
                         //check only if size is the same, else skip because answer is not correct
                         if (collectTrueAttempt.size() > 1 && collectTrueAttempt.size() == collectTrueDb.size()) {
                             log.info("Size higher than 1: \n Size of collectTrueAttempt is: {} \n and Size of collectTrueDb is: {}",

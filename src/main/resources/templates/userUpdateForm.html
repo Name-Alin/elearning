@@ -10,7 +10,7 @@
 <div>
     <h1>This is the page I want</h1>
 
-<form action="#" th:action="@{/updateUser}" th:object="${userDto}" method="post">
+<form action="#" th:action="@{/user/update}" th:object="${userDto}" method="post">
     <label th:text="'UserId: ' + ${specificUser.id}"></label>
     <input type="text" th:field="${specificUser.id}" id="userid" readonly>
     <label for="username">UserName</label>

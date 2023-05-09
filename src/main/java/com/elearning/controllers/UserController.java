@@ -51,7 +51,7 @@ public class UserController {
     }
 
 
-    @PostMapping("/adduser")
+    @PostMapping("/user/add")
     @ResponseStatus(HttpStatus.CREATED)
     public String addUser(@Valid UserDto user, BindingResult result, HttpServletResponse httpServletResponse) throws Exception {
 
@@ -68,7 +68,7 @@ public class UserController {
         return "redirect:/userform";
     }
 
-    @GetMapping("/deleteUser/{id}")
+    @GetMapping("/user/delete/{id}")
     @ResponseStatus(HttpStatus.OK)
     public String deleteUser(@PathVariable("id") Long id, HttpServletResponse httpServletResponse) throws IOException {
         userService.deleteUserById(id);
@@ -76,7 +76,7 @@ public class UserController {
         return "redirect:/userform";
     }
 
-    @PostMapping("/updateUser")
+    @PostMapping("/user/update")
     public String updateUser(@Valid UserDto userDto, BindingResult result) throws Exception {
         if (result.hasErrors()) {
             result.getAllErrors().forEach(objectError -> {
@@ -89,7 +89,7 @@ public class UserController {
         return "redirect:/userform";
     }
 
-    @GetMapping("showUserById/{id}")
+    @GetMapping("/user/showById/{id}")
     public String showUserById(@PathVariable("id") Long id, @Valid UserDto userDto, Model model) {
 
         model.addAttribute("specificUser", userService.getUserById(id));
