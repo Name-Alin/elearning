@@ -27,7 +27,6 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Controller
-//@PreAuthorize("hasRole(ADMIN)")
 public class UserController {
 
 

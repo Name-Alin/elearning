@@ -2,6 +2,7 @@ package com.elearning.config.authentication;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.type.filter.RegexPatternTypeFilter;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -31,9 +32,10 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/userform","/user/**").hasRole("ADMIN")
-                .antMatchers("/training/**","/showEvaluations"
-                        ,"/quiz/**","/question/**").hasRole("SUPERVISOR")
+                .regexMatchers("/training/\\d+").hasAnyRole("MEMBER","ADMIN")
+                .antMatchers("/userform", "/user/**").hasRole("ADMIN")
+                .antMatchers("/training/**", "/showEvaluations"
+                        , "/quiz/**", "/question/**").hasRole("SUPERVISOR")
 //                .and().authorizeRequests().antMatchers("/").authenticated()
                 .and().authorizeRequests().anyRequest().authenticated()
                 .and().formLogin().permitAll()
