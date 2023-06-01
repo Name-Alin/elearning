@@ -5,61 +5,79 @@
 <head>
     <meta charset="UTF-8">
     <title>Training CRUD</title>
+
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+
+    <link rel="stylesheet" th:href="@{/styles/navbar.css}">
+    <link rel="stylesheet" th:href="@{/styles/fieldSet.css}">
+
 </head>
 <body>
-<div>
-    <h1>Training Page</h1>
-    <a href="/">IndexPage</a>
+<div th:replace="navbar.html :: navbar"></div>
+<div class="main">
+    <div class="row">
+        <div>
 
 
-    <form action="#" th:action="@{/training/add}" th:object="${trainingDto}" enctype="multipart/form-data" method="post">
+            <h1>Training Page</h1>
 
-        <fieldset>
-            <input type="submit" id="submitButton" th:value="Save">
-            <input type="reset" id="resetButton" name="reset" th:value="Reset"/>
-            <br>
-            <label for="trainingTitle">Training Title</label>
-            <br>
-            <input type="text" id="trainingTitle" th:field="*{trainingTitle}">
-            <br>
-            <label for="description">Description</label>
-            <br>
-            <input type="text" id="description" th:field="*{description}">
-            <br>
-            <label for="pathToTraining">Training File</label>
-            <br>
-            <input type="file" id="pathToTraining" th:field="*{multipartFile}">
-            <br>
-            <label for="pathToImage">Set an image for this training</label>
-            <br>
-            <input type="file" id="pathToImage" th:field="*{imageFile}">
-        </fieldset>
-    </form>
 
-    <br>
-    <table id="trainingTable" class="table table-striped table-primary">
-        <thead>
-        <tr>
-            <td><b>Training Id</b></td>
-            <td><b>Training Title</b></td>
-            <td><b>Training Description</b></td>
-            <td><b>Training Path</b></td>
-            <td><b>Delete Training</b></td>
-            <td><b>Update Training</b></td>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="training, itemStat : ${allTrainings}">
-            <td th:text="${training.id}"></td>
-            <td th:text="${training.trainingTitle}"></td>
-            <td th:text="${training.description}"></td>
-            <td th:text="${training.pathToTraining}"></td>
+            <form action="#" th:action="@{/training/add}" th:object="${trainingDto}" enctype="multipart/form-data"
+                  method="post">
 
-            <td><a href="#" th:href="@{'/training/delete/' + ${training.id} }">Delete training</a></td>
-            <td><a href="#" th:href="@{'/training/showUpdateForm/' + ${training.id} }">Update training</a></td>
-        </tr>
-        </tbody>
-    </table>
+                <fieldset class="scheduler-border">
+                    <legend class="scheduler-border">Add new training</legend>
+                    <input type="submit" id="submitButton" th:value="Save">
+                    <input type="reset" id="resetButton" name="reset" th:value="Reset"/>
+                    <br>
+                    <label for="trainingTitle">Training Title</label>
+                    <br>
+                    <input type="text" id="trainingTitle" th:field="*{trainingTitle}">
+                    <br>
+                    <label for="description">Description</label>
+                    <br>
+                    <input type="text" id="description" th:field="*{description}">
+                    <br>
+                    <label for="pathToTraining">Training File</label>
+                    <br>
+                    <input type="file" id="pathToTraining" th:field="*{multipartFile}">
+                    <br>
+                    <label for="pathToImage">Set an image for this training</label>
+                    <br>
+                    <input type="file" id="pathToImage" th:field="*{imageFile}">
+                </fieldset>
+            </form>
+        </div>
+        <br>
+        <div class="table-responsive">
+            <table id="trainingTable" class="table table-bordered table-striped">
+                <thead class="thead-dark">
+                <tr>
+                    <th><b>Training Id</b></th>
+                    <th><b>Training Title</b></th>
+                    <th><b>Training Description</b></th>
+                    <th><b>Training Path</b></th>
+                    <th><b>Delete Training</b></th>
+                    <th><b>Update Training</b></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="training, itemStat : ${allTrainings}">
+                    <td th:text="${training.id}"></td>
+                    <td th:text="${training.trainingTitle}"></td>
+                    <td th:text="${training.description}"></td>
+                    <td th:text="${training.pathToTraining}"></td>
+
+                    <td><a href="#" th:href="@{'/training/delete/' + ${training.id} }">Delete training</a></td>
+                    <td><a href="#" th:href="@{'/training/showUpdateForm/' + ${training.id} }">Update training</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
 </body>

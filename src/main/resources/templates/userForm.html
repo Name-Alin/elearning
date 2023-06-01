@@ -3,88 +3,136 @@
       xmlns:th="http://www.thymeleaf.org"
 >
 <head>
-  <meta charset="UTF-8">
-  <title>User CRUD</title>
+    <meta charset="UTF-8">
+    <title>User CRUD</title>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"
-          th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}">
+    <!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"-->
+    <!--          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"-->
+    <!--          th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}">-->
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
 
-    <link rel="stylesheet" th:href="@{/styles/navbar.css}" >
+    <link rel="stylesheet" th:href="@{/styles/navbar.css}">
 
 </head>
 <body>
-<div>
+<!--<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">-->
+<!--    <div class="container">-->
+<!--        <a class="navbar-brand" href="/">Thymeleaf - Bootstrap DataTable</a>-->
+<!--        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"-->
+<!--                aria-controls="navbarResponsive"-->
+<!--                aria-expanded="false" aria-label="Toggle navigation">-->
+<!--            <span class="navbar-toggler-icon"></span>-->
+<!--        </button>-->
+<!--        <div class="collapse navbar-collapse" id="navbarResponsive">-->
+<!--            <ul class="navbar-nav ml-auto">-->
+<!--                <li class="nav-item active">-->
+<!--                    <a class="nav-link" href="#">Home-->
+<!--                        <span class="sr-only">(current)</span>-->
+<!--                    </a>-->
+<!--                </li>-->
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link" href="#">About</a>-->
+<!--                </li>-->
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link" href="#">Services</a>-->
+<!--                </li>-->
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link" href="#">Contact</a>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</nav>-->
+<!--<div>-->
 
-    <div th:replace="navbar.html :: navbar"></div>
+<div th:replace="navbar.html :: navbar"></div>
 
-  <div class="main">
+<div class="main">
 
-      <div class="row">
+    <div class="row">
 
-<form action="#" th:action="@{/user/add}" th:object="${user}" method="post">
- 
-<div class="form-group">
-    <label for="username">UserName</label>
-    <input type="text" th:field="*{username}" id="username" placeholder="username">
-    <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
+        <form action="#" th:action="@{/user/add}" th:object="${user}" method="post">
 
-    <label for="Pass">Password</label>
-    <input type="password" th:field="*{password}" id="Pass">
-    <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+            <div class="form-group">
+                <label for="username">UserName</label>
+                <input type="text" th:field="*{username}" id="username" placeholder="username">
+                <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
 
-    <label for="enable_user">Enabled</label>
-    <input type="checkbox" th:field="*{enabled}" id="enable_user" aria-checked="true">
+                <label for="Pass">Password</label>
+                <input type="password" th:field="*{password}" id="Pass">
+                <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
 
-    <br>
-    <label for="roles" >Roles:</label>
-    <select class="form-control" id="roles" th:field="*{roles}" multiple="multiple">
-        <option th:each="role : ${allRoles}"
-                th:value="${role.id}" th:text="${role.name}"></option>
-    </select>
-    
+                <label for="enable_user">Enabled</label>
+                <input type="checkbox" th:field="*{enabled}" id="enable_user" aria-checked="true">
 
-    <label for="supervisor">Supervisor:</label>
-    <select class="form-control" id="supervisor" th:field="*{isSupervisedBy}" multiple="multiple">
-        <option th:each="supervisor : ${supervisors}"
-                th:value="${supervisor.id}" th:text="${supervisor.username}"></option>
-    </select>
+                <br>
+                <label for="roles">Roles:</label>
+                <select class="form-control" id="roles" th:field="*{roles}" multiple="multiple">
+                    <option th:each="role : ${allRoles}"
+                            th:value="${role.id}" th:text="${role.name}"></option>
+                </select>
 
-    <input type="submit" value="Add New User">
+
+                <label for="supervisor">Supervisor:</label>
+                <select class="form-control" id="supervisor" th:field="*{isSupervisedBy}" multiple="multiple">
+                    <option th:each="supervisor : ${supervisors}"
+                            th:value="${supervisor.id}" th:text="${supervisor.username}"></option>
+                </select>
+
+                <input type="submit" value="Add New User">
+            </div>
+        </form>
+    </div>
+
+    <!--      <div class="container">-->
+    <!--          <div class="row">-->
+    <!--              <div class="col-lg-10 mt-5 mb-5">-->
+
+    <input id="textSearch" type="text" name="keyword">
+    <div class="table-responsive">
+        <table id="usersTable" class="table table-bordered table-striped">
+            <thead class="thead-dark">
+            <tr>
+                <th><b>Id</b></th>
+                <th><b>Username</b></th>
+                <th><b>Role</b></th>
+                <th><b>Supervisor Id</b></th>
+                <th><b>Delete User</b></th>
+                <th><b>Update User</b></th>
+            </tr>
+            </thead>
+            <tbody id="mytable">
+            <tr th:each="user1 : ${allUsers}">
+                <td th:text="${user1.id}">1</td>
+                <td th:text="${user1.username}"/>
+                <td th:text="${user1.roles[0].name}"/>
+                <td th:text="${user1.isSupervisedBy}"/>
+                <td><a href="#" th:href="@{'/user/delete/' + ${user1.id}}">Delete</a></td>
+                <td><a href="#" th:href="@{'/user/showById/' + ${user1.id}}">Update</a></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!--</div>-->
+        <!--</div>  -->
+        <!--</div>-->
+    </div>
 </div>
-</form>
-      </div>
 
-      <div class="row">
-<input id="textSearch" type="text" name="keyword">
 
-    <table id="usersTable" class="table table-hover table-striped">
-    <thead class="thead-dark">
-    <tr>
-        <th><b>Id</b> </th>
-        <td><b>Username</b> </td>
-        <td><b>Role</b> </td>
-        <td><b>Supervisor Id</b> </td>
-        <td><b>Delete User</b> </td>
-        <td><b>Update User</b> </td>
-    </tr>
-    </thead>
-    <tbody id="mytable">
-    <tr class="table-primary" th:each="user1 : ${allUsers}">
-        <td th:text="${user1.id}">1</td>
-        <td th:text="${user1.username}" />
-        <td th:text="${user1.roles[0].name}" />
-        <td th:text="${user1.isSupervisedBy}" />
-        <td><a href="#" th:href="@{'/user/delete/' + ${user1.id}}">Delete</a></td>
-        <td><a href="#" th:href="@{'/user/showById/' + ${user1.id}}">Update</a></td>
-    </tr>
-    </tbody>
-    </table>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"
+        integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+        crossorigin="anonymous"></script>
 
-</div>
-</div>
-</div>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.4.1/cjs/popper.min.js"-->
+<!--        integrity="sha256-T3bYsIPyOLpEfeZOX4M7J59ZoDMzuYFUsPiSN3Xcc2M=" crossorigin="anonymous"></script>-->
 
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
 
 <script th:inline="javascript"
         src="https://code.jquery.com/jquery-3.6.1.js"
@@ -96,47 +144,53 @@
    var user2 = /*[[${allUsers}]]*/"";
 /*]]>*/
 
-//     $('#textSearch').keydown(function(){
+     $('#textSearch').keydown(function(){
 
-//     var value = $(this).val();
-//     console.log('Value = ' + value);
-//     value = value.charAt(value.length-1)
-//     alert(value);
+     var value = $(this).val();
+     console.log('Value = ' + value);
+     value = value.charAt(value.length-1)
+     alert(value);
 
-//     var data = filterFunction(value, user2);
+     var data = filterFunction(value, user2);
 
-//     rebuildTableData(data);
-// });
+     rebuildTableData(data);
+ });
 
-// function filterFunction(value, data){
+$('keyword').on('keyup',function(){
+    var value = $(this).val();
+    console.log('Value = ' + value);
+});
 
-//     var filterData = [];
 
-//     for(var i = 0; i<data.length; i++){
-//         value = value.toLowerCase();
-//         var name = data[i].username.toLowerCase();
+ function filterFunction(value, data){
 
-//         if(name.includes(value)){
-//             filterData.push(data[i]);
-//         }
-//         return filterData;
-//     }
+     var filterData = [];
 
-// }
+     for(var i = 0; i<data.length; i++){
+         value = value.toLowerCase();
+         var name = data[i].username.toLowerCase();
 
-// function rebuildTableData(data){
-//     var table = document.getElementById("usersTable")
+         if(name.includes(value)){
+             filterData.push(data[i]);
+         }
+         return filterData;
+     }
 
-//     table.innerHTML=''
+ }
 
-//     for(var i = 0; i<data.length; i++){
-//         var row = `<tr> 
-//                         <td>${data[i].username}</td> 
-            
-//                     </tr>`
-//                     table.innerHTML += row
-//     }
-// }
+ function rebuildTableData(data){
+     var table = document.getElementById("usersTable")
+
+     table.innerHTML=''
+
+     for(var i = 0; i<data.length; i++){
+         var row = `<tr>
+                         <td>${data[i].username}</td>
+
+                     </tr>`
+                     table.innerHTML += row
+     }
+ }
 
 $(document).ready(function(){
     $("#textSearch").on("input", function() {
@@ -150,6 +204,7 @@ $(document).ready(function(){
         });
     });
 });
+
 
 </script>
 </body>

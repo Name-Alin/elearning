@@ -3,43 +3,62 @@
       xmlns:th="http://www.thymeleaf.org"
 >
 <head>
-  <meta charset="UTF-8">
-  <title>Quiz CRUD</title>
+    <meta charset="UTF-8">
+    <title>Quiz CRUD</title>
+
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+
+    <link rel="stylesheet" th:href="@{/styles/navbar.css}">
+
 </head>
 <body>
 <div>
-    <h1>Quizzes</h1>
-    <a href="/">IndexPage</a>
-<br>
-    <a th:href="@{/quiz/form}">Create New Quiz</a>
 
-    <table id="usersTable" class="table table-striped table-primary">
-        <thead>
-        <tr>
-            <td><b>Quiz Id</b> </td>
-            <td><b>Title</b> </td>
-            <td><b>Description</b> </td>
-            <td><b>Minimum score to graduate(%)</b> </td>
-            <td><b>Delete Quiz</b> </td>
-            <td><b>Update Questions</b> </td>
-            <td><b>Update Quiz Details</b> </td>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="quiz : ${quizzes}">
-            <td th:text="${quiz.id}"></td>
-            <td th:text="${quiz.name}"></td>
-            <td th:text="${quiz.description}"></td>
-            <td th:text="${quiz.expectedPercent} + '%'"></td>
+    <div th:replace="navbar.html :: navbar"></div>
 
-            <td><a href="#" th:href="@{'/quiz/delete/' + ${quiz.id}}">Delete Quiz</a></td>
-            <td><a href="#" th:href="@{'/quiz/' + ${quiz.id} + '/questions' }">Update Questions in quiz</a></td>
-            <td><a href="#" th:href="@{'/quiz/getById/' + ${quiz.id} }">Update quiz details</a></td>
-        </tr>
-        </tbody>
-    </table>
+    <div class="main">
 
+        <!--        <div class="row">-->
+
+        <h1>Quizzes</h1>
+        <a href="/">IndexPage</a>
+        <br>
+        <a th:href="@{/quiz/form}">Create New Quiz</a>
+
+        <div class="table-responsive">
+            <table id="usersTable" class="table table-bordered table-striped">
+                <thead class="thead-dark">
+                <tr>
+                    <th><b>Quiz Id</b></th>
+                    <th><b>Title</b></th>
+                    <th><b>Description</b></th>
+                    <th><b>Minimum score to graduate(%)</b></th>
+                    <th><b>Delete Quiz</b></th>
+                    <th><b>Update Questions</b></th>
+                    <th><b>Update Quiz Details</b></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="quiz : ${quizzes}">
+                    <td th:text="${quiz.id}"></td>
+                    <td th:text="${quiz.name}"></td>
+                    <td th:text="${quiz.description}"></td>
+                    <td th:text="${quiz.expectedPercent} + '%'"></td>
+
+                    <td><a href="#" th:href="@{'/quiz/delete/' + ${quiz.id}}">Delete Quiz</a></td>
+                    <td><a href="#" th:href="@{'/quiz/' + ${quiz.id} + '/questions' }">Update Questions in quiz</a></td>
+                    <td><a href="#" th:href="@{'/quiz/getById/' + ${quiz.id} }">Update quiz details</a></td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
 </div>
+<!--</div>-->
 
 </body>
 
