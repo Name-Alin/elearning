@@ -4,7 +4,7 @@
 >
 <head>
     <meta charset="UTF-8">
-    <title>User CRUD</title>
+    <title>Question CRUD</title>
 
     <link rel="stylesheet"
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
@@ -12,60 +12,125 @@
           crossorigin="anonymous">
 
     <link rel="stylesheet" th:href="@{/styles/navbar.css}">
+    <link rel="stylesheet" th:href="@{/styles/fieldSet.css}">
+
 </head>
 <body>
-<div>
-    <h1>Quiz Questions</h1>
-    <a href="/">IndexPage</a>
-    <div th:replace="navbar.html :: navbar"></div>
+<div th:replace="navbar.html :: navbar"></div>
+<div class="main">
+    <div class="row">
+        <div class="col-md-10 offset-md-1 form-3-box text-center wow fadeInUp">
+            <h1>Add new questions to quiz</h1>
 
-    <form action="#" th:action="@{/question/createOrSave}" th:object="${questionDto}" method="post">
+            <form action="#" th:action="@{/question/createOrSave}" th:object="${questionDto}" method="post">
 
-        <fieldset>
-            <input type="submit" id="submitButton" th:value="Save">
-            <input type="reset" id="resetButton" name="reset" th:value="Reset"/>
-            <br>
-            <label for="question">Question text</label>
-            <br>
-            <input type="text" id="question" th:field="*{content}">
-            <br>
-            <label for="answer1">Answer Options</label>
-            <br>
-            <input type="text" id="answer1" th:each="answer, itemStat : *{answers}"
-                   th:field="*{answers[__${itemStat.index}__].content}">
-            <br>
-            <input type="checkbox" id="correct1" th:each="answer, itemStat : *{answers}"
-                   th:field="*{answers[__${itemStat.index}__].correct}">
+                <fieldset class="scheduler-border form-group p-3">
+                    <legend class="scheduler-border w-auto px-2">Create new question</legend>
 
-        </fieldset>
-    </form>
+                    <div class="form-group text-left">
+                        <label for="question">Question text</label>
+                        <input placeholder="Question Text" class="form-control" type="text" id="question"
+                               th:field="*{content}">
+                    </div>
 
-    <div class="table-responsive">
-        <table id="usersTable" class="table table-bordered table-striped">
-            <thead class="thead-dark">
-            <tr>
-                <th><b>Question Id</b></th>
-                <th><b>Question Content</b></th>
-                <th><b>Delete Questions</b></th>
-                <th><b>Update Questions</b></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="question, itemStat : ${quizQuestions}">
-                <td th:text="${question.id}"></td>
-                <td th:text="${question.content}"></td>
-                <!--            <td th:text="${question.answers[__${itemStat.index}__].content}"></td>-->
+                    <div class="form-group text-left">
+                        <div class="row gr-2">
+                            <div class="col-md-5 text-left">
+                                <label class="text-left" for="answer1">Answer Options</label>
+                            </div>
+                            <div class="col-md-6 text-left">
+                                <label class="" for="answer1">Mark correct option(s)</label>
+                            </div>
+                            <!--                            <div class="input-group mb-2 col-md-6">-->
 
-                <!--            <input type="text" id="question" th:each="question, itemStat : *{questions}"-->
-                <!--                   th:field="*{questions[__${itemStat.index}__].content}" >-->
+                            <!--                                <input class="form-control form-control-sm" type="text" id="answer1"-->
+                            <!--                                       th:each="answer, itemStat : *{answers}"-->
+                            <!--                                       th:field="*{answers[__${itemStat.index}__].content}">-->
+                            <!--                                <br>-->
+                            <!--                                <div class="input-group-text">-->
+                            <!--                                    <input type="checkbox" id="correct1" th:each="answer, itemStat : *{answers}"-->
+                            <!--                                           th:field="*{answers[__${itemStat.index}__].correct}">-->
+                            <!--                                </div>-->
+                            <!--                            </div>-->
 
-                <td><a href="#" th:href="@{'/question/delete/' + ${question.id} }">Delete question</a></td>
-                <td><a href="#" th:href="@{'/question/show/' + ${question.id} }">Update Questions</a></td>
-            </tr>
-            </tbody>
-        </table>
+
+                            <div class="input-group mb-2 col-md-6">
+                                <input class="form-control form-control-sm" placeholder="Answer Option 1" type="text"
+                                       id="answer1" th:field="*{answers[0].content}">
+                                <div class="input-group-text">
+                                    <input type="checkbox" id="correct1" th:field="*{answers[0].correct}">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row gr-2">
+                        <div class="input-group mb-4 col-md-6">
+                            <input class="form-control form-control-sm" placeholder="Answer Option 2"
+                                   type="text"
+                                   id="answer2" th:field="*{answers[1].content}">
+                            <div class="input-group-text">
+                                <input type="checkbox" id="correct2" th:field="*{answers[1].correct}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row gr-2">
+                        <div class="input-group mb-4 col-md-6">
+                            <input class="form-control form-control-sm" placeholder="Answer Option 3" type="text"
+                                   id="answer3" th:field="*{answers[2].content}">
+                            <div class="input-group-text">
+                                <input type="checkbox" id="correct3" th:field="*{answers[2].correct}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row gr-2">
+                        <div class="input-group mb-4 col-md-6">
+                            <input class="form-control form-control-sm" placeholder="Answer Option 4" type="text"
+                                   id="answer4" th:field="*{answers[3].content}">
+                            <div class="input-group-text">
+                                <input type="checkbox" id="correct4" th:field="*{answers[3].correct}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col">
+                            <input class="btn btn-primary btn-customized" type="submit" id="submitButton"
+                                   th:value="Save">
+                            <input class="btn btn-secondary btn-customized" type="reset" id="resetButton" name="reset"
+                                   th:value="Reset"/>
+                        </div>
+                    </div>
+
+                </fieldset>
+            </form>
+
+            <div class="table-responsive pt-5">
+                <table id="usersTable" class="table table-bordered table-striped">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th><b>Question Id</b></th>
+                        <th><b>Question Content</b></th>
+                        <th><b>Delete Questions</b></th>
+                        <th><b>Update Questions</b></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="question, itemStat : ${quizQuestions}">
+                        <td th:text="${question.id}"></td>
+                        <td th:text="${question.content}"></td>
+
+                        <td><a href="#" th:href="@{'/question/delete/' + ${question.id} }">Delete question</a></td>
+                        <td><a href="#" th:href="@{'/question/show/' + ${question.id} }">Update Questions</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-    </div>
+</div>
 
 </body>
 

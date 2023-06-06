@@ -15,6 +15,7 @@
           crossorigin="anonymous">
 
     <link rel="stylesheet" th:href="@{/styles/navbar.css}">
+    <link rel="stylesheet" th:href="@{/styles/fieldSet.css}">
 
 </head>
 <body>
@@ -51,48 +52,78 @@
 <div th:replace="navbar.html :: navbar"></div>
 
 <div class="main">
-
     <div class="row">
+        <div class="col-md-10 offset-md-1 form-3-box text-center wow fadeInUp">
+            <h1>Users Page</h1>
 
-        <form action="#" th:action="@{/user/add}" th:object="${user}" method="post">
+            <form action="#" th:action="@{/user/add}" th:object="${user}" method="post">
 
-            <div class="form-group">
-                <label for="username">UserName</label>
-                <input type="text" th:field="*{username}" id="username" placeholder="username">
-                <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
+                <fieldset class="scheduler-border form-group p-3">
+                    <legend class="scheduler-border w-auto px-2 pb-4">Add new user</legend>
 
-                <label for="Pass">Password</label>
-                <input type="password" th:field="*{password}" id="Pass">
-                <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+                    <div class="row">
+                        <div class="col-md-6 text-left">
+                            <label for="username">User Name</label>
+                            <input class="form-control" type="text" th:field="*{username}" id="username"
+                                   placeholder="User Name">
+                            <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
+                        </div>
+                        <div class="col-md-6 text-left">
+                            <label class="form-label" for="Pass">Password</label>
+                            <br>
+                            <input class="form-control" type="password" th:field="*{password}" id="Pass"
+                                   placeholder="Password">
+                            <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
 
-                <label for="enable_user">Enabled</label>
-                <input type="checkbox" th:field="*{enabled}" id="enable_user" aria-checked="true">
+                        </div>
+                        <div class="form-check">
+                            <label class="pt-4 pb-2" for="enable_user">Enabled</label>
+                            <input class="pt-4 pb-2" type="checkbox" th:field="*{enabled}" id="enable_user"
+                                   aria-checked="true">
+                        </div>
+                    </div>
 
-                <br>
-                <label for="roles">Roles:</label>
-                <select class="form-control" id="roles" th:field="*{roles}" multiple="multiple">
-                    <option th:each="role : ${allRoles}"
-                            th:value="${role.id}" th:text="${role.name}"></option>
-                </select>
-
-
-                <label for="supervisor">Supervisor:</label>
-                <select class="form-control" id="supervisor" th:field="*{isSupervisedBy}" multiple="multiple">
-                    <option th:each="supervisor : ${supervisors}"
-                            th:value="${supervisor.id}" th:text="${supervisor.username}"></option>
-                </select>
-
-                <input type="submit" value="Add New User">
-            </div>
-        </form>
+                    <div class="">
+                        <div class="row">
+                            <div class="col-md-6 text-left">
+                                <label class="form-label" for="roles">Roles:</label>
+                                <select class="form-control form-select form-select-lg mb-3" size="3" id="roles"
+                                        th:field="*{roles}"
+                                        multiple="multiple">
+                                    <option th:each="role : ${allRoles}"
+                                            th:value="${role.id}" th:text="${role.name}"></option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 text-left">
+                                <label class="form-label" for="supervisor">Supervisor:</label>
+                                <select class="form-control form-select form-select-lg mb-3" size="3" id="supervisor"
+                                        th:field="*{isSupervisedBy}">
+                                    <option th:each="supervisor : ${supervisors}"
+                                            th:value="${supervisor.id}"
+                                            th:text="${supervisor.username}"></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col">
+                            <input type="submit" class="btn btn-primary btn-customized" value="Add New User">
+                            <input type="reset" class="btn btn-secondary btn-customized" id="resetButton"
+                                   name="reset"
+                                   th:value="Reset"/>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
     </div>
 
     <!--      <div class="container">-->
     <!--          <div class="row">-->
     <!--              <div class="col-lg-10 mt-5 mb-5">-->
 
-    <input id="textSearch" type="text" name="keyword">
-    <div class="table-responsive">
+    <!--    <input id="textSearch" type="text" name="keyword">-->
+    <div class="table-responsive pt-5">
         <table id="usersTable" class="table table-bordered table-striped">
             <thead class="thead-dark">
             <tr>
@@ -204,6 +235,49 @@ $(document).ready(function(){
         });
     });
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 </script>

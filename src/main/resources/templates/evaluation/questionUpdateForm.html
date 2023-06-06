@@ -5,53 +5,104 @@
 <head>
     <meta charset="UTF-8">
     <title>Update Question</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+
+    <link rel="stylesheet" th:href="@{/styles/navbar.css}">
+    <link rel="stylesheet" th:href="@{/styles/fieldSet.css}">
 </head>
 <body>
-<div>
-    <h1>Update Question</h1>
-    <a href="/">IndexPage</a>
+<div th:replace="navbar.html :: navbar"></div>
+<div class="main">
+    <div class="row">
+        <div class="col-md-10 offset-md-1 form-3-box text-center wow fadeInUp">
 
-    <form action="#" th:action="@{/question/createOrSave}" th:object="${questionDto}" method="post">
+            <h1>Update Question</h1>
 
-        <fieldset>
-            <input type="submit" id="submitButton" th:value="Save">
-<!--            <input type="reset" id="resetButton" name="reset" th:value="Reset"/>-->
-            <br>
-            <label th:text="'QuestionId: ' + ${question.id}"></label>
-            <br>
-            <input type="hidden" th:field="${question.id}" id="questionId" readonly>
-            <br>
-            <label for="content">Question text</label>
-            <br>
-            <input type="text" id="content" th:field="${question.content}">
-            <br>
-            <!--        <input type="text" id="quiz" th:field="${question.quiz}" >-->
+            <form action="#" th:action="@{/question/createOrSave}" th:object="${questionDto}" method="post">
 
-            <label for="answer1">Answer Options</label>
-            <br>
-            <label>1</label>
-            <input type="hidden" th:field="${question.answers[0].id}">
-            <input type="text" id="answer1" th:field="${question.answers[0].content}">
-            <input type="checkbox" id="correct1" th:field="${question.answers[0].correct}">
+                <fieldset class="scheduler-border form-group p-3">
+                    <legend class="scheduler-border w-auto px-2">Update question</legend>
 
-            <label>2</label>
-            <input type="hidden" th:field="${question.answers[1].id}">
-            <input type="text" id="answer2" th:field="${question.answers[1].content}" th:value="${question.answers[1].id}">
-            <input type="checkbox" id="correct2" th:field="${question.answers[1].correct}">
-            <br>
-            <label>3</label>
-            <input type="hidden" id="1" th:field="${question.answers[2].id}">
-            <input type="text" id="answer3" th:field="${question.answers[2].content}" th:value="${question.answers[2].id}">
-            <input type="checkbox" id="correct3" th:field="${question.answers[2].correct}">
+                    <label th:text="'QuestionId: ' + ${question.id}"></label>
+                    <br>
+                    <input type="hidden" th:field="${question.id}" id="questionId" readonly>
 
-            <label>4</label>
-            <input type="hidden" id="1" th:field="${question.answers[3].id}">
-            <input type="text" id="answer4" th:field="${question.answers[3].content}" th:value="${question.answers[3].id}">
-            <input type="checkbox" id="correct4" th:field="${question.answers[3].correct}">
+                    <div class="form-group text-left">
+                        <label for="content">Question text</label>
+                        <input placeholder="Question Text" class="form-control" type="text" id="content"
+                               th:field="${question.content}">
+                    </div>
+                    <!--        <input type="text" id="quiz" th:field="${question.quiz}" >-->
 
-        </fieldset>
-    </form>
+                    <div class="form-group text-left">
+                        <div class="row gr-2">
+                            <div class="col-md-5 text-left">
+                                <label class="text-left" for="answer1">Answer Options</label>
+                            </div>
+                            <div class="col-md-6 text-left">
+                                <label class="" for="answer1">Mark correct option(s)</label>
+                            </div>
+                            <div class="input-group mb-2 col-md-6">
+                                <input type="hidden" th:field="${question.answers[0].id}">
+                                <input class="form-control form-control-sm" placeholder="Answer Option 1" type="text"
+                                       id="answer1" th:field="${question.answers[0].content}">
+                                <div class="input-group-text">
+                                    <input type="checkbox" id="correct1" th:field="${question.answers[0].correct}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
+                    <div class="row gr-2">
+                        <div class="input-group mb-4 col-md-6">
+                            <input type="hidden" th:field="${question.answers[1].id}">
+                            <input class="form-control form-control-sm" placeholder="Answer Option 2" type="text"
+                                   id="answer2" th:field="${question.answers[1].content}"
+                                   th:value="${question.answers[1].id}">
+                            <div class="input-group-text">
+                                <input type="checkbox" id="correct2" th:field="${question.answers[1].correct}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row gr-2">
+                        <div class="input-group mb-4 col-md-6">
+                            <input type="hidden" id="1" th:field="${question.answers[2].id}">
+                            <input class="form-control form-control-sm" placeholder="Answer Option 3" type="text"
+                                   id="answer3" th:field="${question.answers[2].content}"
+                                   th:value="${question.answers[2].id}">
+                            <div class="input-group-text">
+                                <input type="checkbox" id="correct3" th:field="${question.answers[2].correct}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row gr-2">
+                        <div class="input-group mb-4 col-md-6">
+                            <input type="hidden" id="1" th:field="${question.answers[3].id}">
+                            <input class="form-control form-control-sm" placeholder="Answer Option 4" type="text"
+                                   id="answer4" th:field="${question.answers[3].content}"
+                                   th:value="${question.answers[3].id}">
+                            <div class="input-group-text">
+                                <input type="checkbox" id="correct4" th:field="${question.answers[3].correct}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col">
+                            <input class="btn btn-primary btn-customized" type="submit" id="submitButton"
+                                   th:value="Save">
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+
+        </div>
+    </div>
 </div>
 
 </body>

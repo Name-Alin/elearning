@@ -3,41 +3,84 @@
       xmlns:th="http://www.thymeleaf.org"
 >
 <head>
-  <meta charset="UTF-8">
-  <title>User CRUD</title>
+    <meta charset="UTF-8">
+    <title>User CRUD</title>
+
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+
+    <link rel="stylesheet" th:href="@{/styles/navbar.css}">
+    <link rel="stylesheet" th:href="@{/styles/fieldSet.css}">
+
 </head>
 <body>
-<div>
-    <h1>This is the page I want</h1>
 
-<form action="#" th:action="@{/user/update}" th:object="${userDto}" method="post">
-    <label th:text="'UserId: ' + ${specificUser.id}"></label>
-    <input type="text" th:field="${specificUser.id}" id="userid" readonly>
-    <label for="username">UserName</label>
-    <input type="text" th:field="${specificUser.username}" id="username" >
-    <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
-    <label for="password">Password</label>
-    <input type="password" name="password" id="password" th:value="${specificUser.password}">
-    <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
-    <label for="enabled">Enabled</label>
-    <input type="checkbox" name="enabled" id="enabled" checked>
-    <input type="submit" value="Update user details">
-    <br>
-    <label>Roles:</label>
-    <select id="roles" name="roles" multiple="multiple">
-        <option th:each="role : ${allRoles} "
-                th:value="${role.id}" th:text="${role.name}" th:selected="${role.name==specificUser.roles[0].name}" ></option>
+<div th:replace="navbar.html :: navbar"></div>
 
-    </select>
+<div class="main">
+    <div class="row">
+        <div class="col-md-10 offset-md-1 form-3-box text-center wow fadeInUp">
+            <h1>User Details Page</h1>
 
-    <label>Suervisor:</label>
-    <select id="isSupervisedBy" name="isSupervisedBy" multiple="multiple">
-        <option></option>
-        <option th:each="supervisor : ${supervisors}"
-                th:value="${supervisor.id}" th:text="${supervisor.username}" th:selected="${supervisor.id==specificUser.isSupervisedBy}"></option>
-    </select>
-</form>
+            <form action="#" th:action="@{/user/update}" th:object="${userDto}" method="post">
 
+                <fieldset class="scheduler-border form-group p-3">
+                    <legend class="scheduler-border w-auto px-2">Update User's Details</legend>
+
+                    <input type="hidden" th:field="${specificUser.id}" id="userid" readonly>
+
+                    <div class="row">
+                        <div class="col-md-6 text-left">
+                            <label for="username">User Name</label>
+                            <input class="form-control" type="text" th:field="${specificUser.username}" id="username">
+                            <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
+                        </div>
+                        <div class="col-md-6 text-left">
+                            <label for="password">Password</label>
+                            <input class="form-control" type="password" name="password" id="password"
+                                   th:value="${specificUser.password}">
+                            <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+                        </div>
+
+                        <div class="form-check">
+                            <label class="pt-4 pb-2" for="enabled">Enabled</label>
+                            <input class="pt-4 pb-2" type="checkbox" name="enabled" id="enabled" checked>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 text-left">
+                            <label class="form-label">Roles:</label>
+                            <select class="form-control form-select form-select-lg mb-3" id="roles" name="roles"
+                                    multiple="multiple">
+                                <option th:each="role : ${allRoles} "
+                                        th:value="${role.id}" th:text="${role.name}"
+                                        th:selected="${role.name==specificUser.roles[0].name}"></option>
+
+                            </select>
+                        </div>
+                        <div class="col-md-6 text-left">
+                            <label class="form-label">Supervisor:</label>
+                            <select class="form-control form-select form-select-lg mb-3" id="isSupervisedBy"
+                                    name="isSupervisedBy">
+                                <option></option>
+                                <option th:each="supervisor : ${supervisors}"
+                                        th:value="${supervisor.id}" th:text="${supervisor.username}"
+                                        th:selected="${supervisor.id==specificUser.isSupervisedBy}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col">
+                            <input class="btn btn-primary btn-customized" type="submit" value="Update user details">
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
 </div>
 </body>
 

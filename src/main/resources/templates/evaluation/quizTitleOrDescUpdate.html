@@ -3,46 +3,71 @@
       xmlns:th="http://www.thymeleaf.org"
 >
 <head>
-  <meta charset="UTF-8">
-  <title>User CRUD</title>
+    <meta charset="UTF-8">
+    <title>Quiz CRUD</title>
+
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+
+    <link rel="stylesheet" th:href="@{/styles/navbar.css}">
+    <link rel="stylesheet" th:href="@{/styles/fieldSet.css}">
 </head>
 <body>
-<div>
-    <h1>Add questions to quiz</h1>
-    <a href="/">IndexPage</a>
+<div th:replace="navbar.html :: navbar"></div>
+<div class="main">
+    <div class="row">
+        <div class="col-md-10 offset-md-1 form-3-box text-center wow fadeInUp">
+            <h1>Update quiz details</h1>
 
+            <form action="#" th:action="@{/quiz/updateTitleOrDesc}" th:object="${quizDto}" method="post">
+
+                <fieldset class="scheduler-border form-group p-3">
+                    <legend class="scheduler-border w-auto px-2">Update quiz details</legend>
+
+                    <div class="form-group text-left">
+                        <label for="quiz_name">Quiz Name</label>
+                        <input placeholder="Quiz Name" class="form-control" type="text" id="quiz_name"
+                               th:field="*{name}">
+                    </div>
+                    <div class="form-group text-left">
+                        <label for="quiz_description">Description</label>
+                        <textarea placeholder="Quiz Description" class="form-control" id="quiz_description"
+                                  th:field="*{description}"></textarea>
+                    </div>
+                    <input type="hidden" th:field="*{id}">
+                    <div class="form-group text-left">
+                        <label for="quiz_training">Assign To Training</label>
+                        <select class="form-control" id="quiz_training" th:field="*{trainingId}">
+                            <option value=""></option>
+                            <option th:each="training : ${trainings}"
+                                    th:value="${training.id}" th:text="${training.trainingTitle}"
+                                    th:selected="${training.id==quizDto.trainingId}"></option>
+                        </select>
+                    </div>
+
+                    <div class="form-group text-left">
+                        <label for="expectedPercentCorrect">Set minimum score to graduate(%)</label>
+                        <select id="expectedPercentCorrect" name="expectedPercent">
+                            <option th:each="i : ${#numbers.sequence(50, 100)}" th:value="${i}" th:text="${i}"
+                                    th:selected="${i==quizDto.expectedPercent}"></option>
+                        </select>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col">
+                            <input class="btn btn-primary btn-customized" type="submit" id="submitButton"
+                                   th:value="Save">
+                            <input class="btn btn-secondary btn-customized" type="reset" id="resetButton" name="reset"
+                                   th:value="Reset"/>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
 </div>
-
-<form action="#" th:action="@{/quiz/updateTitleOrDesc}" th:object="${quizDto}" method="post">
-
-    <fieldset>
-        <input type="submit" id="submitButton" th:value="Save">
-        <input type="reset" id="resetButton" name="reset" th:value="Reset"/>
-
-        <br>
-        <label for="quiz_name">Quiz Name</label>
-        <input type="text" id="quiz_name" th:field="*{name}">
-        <br>
-        <label for="quiz_description">Description</label>
-        <input type="text" id="quiz_description" th:field="*{description}">
-
-        <input type="hidden" th:field="*{id}">
-
-        <label for="quiz_training">Assign To Training</label>
-        <select id="quiz_training" th:field="*{trainingId}" multiple="multiple">
-            <option value=""></option>
-            <option th:each="training : ${trainings}"
-                    th:value="${training.id}" th:text="${training.trainingTitle}" th:selected="${training.id==quizDto.trainingId}"></option>
-        </select>
-
-        <label for="expectedPercentCorrect">Set minimum score to graduate(%)</label>
-        <select id="expectedPercentCorrect" name="expectedPercent">
-            <option th:each="i : ${#numbers.sequence(50, 100)}" th:value="${i}" th:text="${i}"
-                    th:selected="${i==quizDto.expectedPercent}"></option>
-        </select>
-
-    </fieldset>
-</form>
 
 </body>
 

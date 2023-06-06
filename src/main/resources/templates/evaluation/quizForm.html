@@ -3,78 +3,143 @@
       xmlns:th="http://www.thymeleaf.org"
 >
 <head>
-  <meta charset="UTF-8">
-  <title>User CRUD</title>
+    <meta charset="UTF-8">
+    <title>User CRUD</title>
+
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+
+    <link rel="stylesheet" th:href="@{/styles/navbar.css}">
+    <link rel="stylesheet" th:href="@{/styles/fieldSet.css}">
+
 </head>
 <body>
-<div>
-    <h1>Add questions to quiz</h1>
-    <a href="/">IndexPage</a>
 
+<div th:replace="navbar.html :: navbar"></div>
+<div class="main">
+    <div class="row">
+        <div class="col-md-10 offset-md-1 form-3-box text-center wow fadeInUp">
+
+            <h1>Create Quiz</h1>
+
+
+            <form action="#" th:action="@{/quiz/create}" th:object="${quizDto}" method="post">
+
+                <fieldset class="scheduler-border form-group p-3">
+                    <legend class="scheduler-border w-auto px-2">Create new Quiz</legend>
+
+                    <div class="form-group text-left">
+                        <label for="quiz_name">Quiz Name</label>
+                        <input placeholder="Quiz Name" class="form-control" type="text" id="quiz_name"
+                               th:field="*{name}">
+                    </div>
+                    <div class="form-group text-left">
+                        <label for="quiz_description">Description</label>
+                        <textarea placeholder="Quiz Description" class="form-control" id="quiz_description"
+                                  th:field="*{description}"></textarea>
+                    </div>
+                    <div class="form-group text-left">
+                        <label for="quiz_training">Assign To Training</label>
+                        <select class="form-control" id="quiz_training" th:field="*{trainingId}">
+                            <option value=""></option>
+                            <option th:each="training : ${trainings}"
+                                    th:value="${training.id}" th:text="${training.trainingTitle}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group text-left">
+                        <label for="expectedPercentCorrect">Set minimum score to graduate(%)</label>
+                        <select id="expectedPercentCorrect" name="expectedPercent">
+                            <option th:each="i : ${#numbers.sequence(50, 100)}" th:value="${i}" th:text="${i}"
+                                    th:selected="${i==75}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group text-left">
+                        <label for="question">Question text</label>
+                        <input placeholder="Question Text" class="form-control" type="text" id="question"
+                               th:each="question, itemStat : *{questions}"
+                               th:field="*{questions[__${itemStat.index}__].content}">
+                    </div>
+                    <div class="form-group text-left">
+                        <div class="row gr-2">
+                            <div class="col-md-5 text-left">
+                                <label class="text-left" for="answer1">Answer Options</label>
+                            </div>
+                            <div class="col-md-6 text-left">
+                                <label class="" for="answer1">Mark correct option(s)</label>
+                            </div>
+                            <div class="input-group mb-2 col-md-6">
+
+                                <input class="form-control form-control-sm" placeholder="Answer Option 1" type="text"
+                                       id="answer1"
+                                       th:each="question, itemStat : *{questions}"
+                                       th:field="*{questions[__${itemStat.index}__].answers[0].content}">
+
+                                <br>
+                                <div class="input-group-text">
+                                    <input class="" type="checkbox"
+                                           id="correct1"
+                                           th:each="question, itemStat : *{questions}"
+                                           th:field="*{questions[__${itemStat.index}__].answers[0].correct}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row gr-2">
+                        <div class="input-group mb-4 col-md-6">
+                            <input class="form-control form-control-sm" placeholder="Answer Option 2" type="text"
+                                   id="answer2"
+                                   th:each="question, itemStat : *{questions}"
+                                   th:field="*{questions[__${itemStat.index}__].answers[1].content}">
+                            <br>
+                            <div class="input-group-text">
+                                <input type="checkbox" id="correct2" th:each="question, itemStat : *{questions}"
+                                       th:field="*{questions[__${itemStat.index}__].answers[1].correct}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row gr-2">
+                        <div class="input-group mb-4 col-md-6">
+                            <input class="form-control form-control-sm" placeholder="Answer Option 3" type="text"
+                                   id="answer3"
+                                   th:each="question, itemStat : *{questions}"
+                                   th:field="*{questions[__${itemStat.index}__].answers[2].content}">
+                            <br>
+                            <div class="input-group-text">
+                                <input type="checkbox" id="correct3" th:each="question, itemStat : *{questions}"
+                                       th:field="*{questions[__${itemStat.index}__].answers[2].correct}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row gr-2">
+                        <div class="input-group mb-4 col-md-6">
+                            <input class="form-control form-control-sm" placeholder="Answer Option 4" type="text"
+                                   id="answer4"
+                                   th:each="question, itemStat : *{questions}"
+                                   th:field="*{questions[__${itemStat.index}__].answers[3].content}">
+                            <br>
+                            <div class="input-group-text">
+                                <input type="checkbox" id="correct4" th:each="question, itemStat : *{questions}"
+                                       th:field="*{questions[__${itemStat.index}__].answers[3].correct}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col">
+                            <input class="btn btn-primary btn-customized" type="submit" id="submitButton"
+                                   th:value="Save">
+                            <input class="btn btn-secondary btn-customized" type="reset" id="resetButton" name="reset"
+                                   th:value="Reset"/>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
 </div>
-
-<form action="#" th:action="@{/quiz/create}" th:object="${quizDto}" method="post">
-
-    <fieldset>
-        <input type="submit" id="submitButton" th:value="Save">
-        <input type="reset" id="resetButton" name="reset" th:value="Reset"/>
-
-        <br>
-        <label for="quiz_name">Quiz Name</label>
-        <input type="text" id="quiz_name" th:field="*{name}">
-        <br>
-        <label for="quiz_description">Description</label>
-        <input type="text" id="quiz_description" th:field="*{description}">
-
-        <br>
-        <label for="quiz_training">Assign To Training</label>
-        <select id="quiz_training" th:field="*{trainingId}" multiple="multiple">
-            <option value=""></option>
-            <option th:each="training : ${trainings}"
-                    th:value="${training.id}" th:text="${training.trainingTitle}"></option>
-        </select>
-
-        <label for="expectedPercentCorrect">Set minimum score to graduate(%)</label>
-        <select id="expectedPercentCorrect" name="expectedPercent">
-            <option th:each="i : ${#numbers.sequence(50, 100)}" th:value="${i}" th:text="${i}"
-                    th:selected="${i==75}"></option>
-        </select>
-
-        <br>
-        <label for="question">Question text</label>
-        <br>
-        <input type="text" id="question" th:each="question, itemStat : *{questions}"
-               th:field="*{questions[__${itemStat.index}__].content}" >
-        <br>
-        <label for="answer1">Answer Options</label>
-        <br>
-        <label>1</label>
-        <input type="text" id="answer1" th:each="question, itemStat : *{questions}"
-               th:field="*{questions[__${itemStat.index}__].answers[0].content}" >
-        <input type="checkbox" id="correct1" th:each="question, itemStat : *{questions}"
-               th:field="*{questions[__${itemStat.index}__].answers[0].correct}"  >
-
-        <label>2</label>
-        <input type="text" id="answer2" th:each="question, itemStat : *{questions}"
-               th:field="*{questions[__${itemStat.index}__].answers[1].content}" >
-        <input type="checkbox" id="correct2" th:each="question, itemStat : *{questions}"
-               th:field="*{questions[__${itemStat.index}__].answers[1].correct}"  >
-        <br>
-        <label>3</label>
-        <input type="text" id="answer3" th:each="question, itemStat : *{questions}"
-               th:field="*{questions[__${itemStat.index}__].answers[2].content}" >
-        <input type="checkbox" id="correct3" th:each="question, itemStat : *{questions}"
-               th:field="*{questions[__${itemStat.index}__].answers[2].correct}"  >
-
-        <label>4</label>
-        <input type="text" id="answer4" th:each="question, itemStat : *{questions}"
-               th:field="*{questions[__${itemStat.index}__].answers[3].content}" >
-        <input type="checkbox" id="correct4" th:each="question, itemStat : *{questions}"
-               th:field="*{questions[__${itemStat.index}__].answers[3].correct}"  >
-
-    </fieldset>
-</form>
-
 </body>
 
 </html>
