@@ -91,4 +91,9 @@ public class UserServiceImpl implements UserService {
         return userRepository.getUsersSupervisedBy(user.getId()).stream().map(mapper::convertToUserDto).collect(Collectors.toList());
     }
 
+    @Override
+    public UserDto getUserByName(String userName) {
+        User user = userRepository.findByUsername(userName).get();
+        return mapper.convertToUserDto(user);
+    }
 }

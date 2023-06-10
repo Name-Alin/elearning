@@ -33,9 +33,17 @@
     }
 
     .img-responsive{
-        width:  400px;
-        height: 400px;
+        width:  350px;
+        height: 350px;
         object-fit: cover;
+    }
+    .panel-body{
+        width:  350px;
+        height: 350px;
+    }
+    .panel-primary{
+         width:  350px;
+         height: 350px;
     }
 
 

@@ -13,4 +13,7 @@ public interface EvaluationDetailsRepository extends JpaRepository<EvaluationDet
     @Query("SELECT e FROM EvaluationDetails e WHERE e.user = :user")
     List<EvaluationDetails> userEvaluations(@Param("user") User user);
 
+//    @Query("SELECT e FROM EvaluationDetails e WHERE e.user = :user and e.trainingId = trainingId")
+//    EvaluationDetails trainingEvaluationForUser(@Param("user") User user, @Param("trainingId") Long id);
+
 }

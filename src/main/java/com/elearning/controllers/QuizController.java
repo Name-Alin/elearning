@@ -22,7 +22,6 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -139,7 +138,7 @@ public class QuizController {
     }
 
     @PostMapping("/submit")
-    public String submitResults(@ModelAttribute QuizDto quizResult) {
+    public String submitResults(@ModelAttribute QuizDto quizResult, HttpServletResponse httpServletResponse) throws IOException {
 
         evaluationDetails.setEndTime(new Timestamp(System.currentTimeMillis()));
         log.info(String.valueOf(evaluationDetails.getEndTime()));
@@ -149,8 +148,12 @@ public class QuizController {
 //        answerDto.forEach(l->log.info("is correct?"+l.isCorrect()));
         log.info("is correct?");
         evaluationDetails.setQuizPercentCorrect(quizService.getQuizResult(quizResult));
+        Long id = evaluationDetails.getTrainingId();
         evaluationDetailsService.saveEvaluation(evaluationDetails);
-        return "redirect:/";
+
+
+//        httpServletResponse.sendRedirect("/quizResult/" + id);
+        return "redirect:/quizResult/" + id;
     }
 
 }

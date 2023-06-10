@@ -2,15 +2,14 @@ package com.elearning.services.evaluation;
 
 
 import com.elearning.dto.EvaluationDetailsDto;
-import com.elearning.dto.TrainingDto;
 import com.elearning.dto.UserDto;
 import com.elearning.dto.mapper.MapperDto;
 import com.elearning.model.authentication.User;
 import com.elearning.model.evaluation.EvaluationDetails;
 import com.elearning.model.evaluation.Quiz;
-import com.elearning.model.training.Training;
 import com.elearning.repositories.EvaluationDetailsRepository;
 import com.elearning.repositories.QuizRepository;
+import com.elearning.repositories.QuizRepositoryImpl;
 import com.elearning.repositories.UserRepository;
 import com.elearning.services.training.TrainingServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +18,6 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -39,6 +37,8 @@ public class EvaluationDetailsServiceImpl {
     MapperDto mapper;
     @Autowired
     TrainingServiceImpl trainingService;
+    @Autowired
+    QuizRepositoryImpl quizRepositoryImpl;
 
     public void saveEvaluation(EvaluationDetailsDto evaluationDetailsDto) {
 
@@ -66,10 +66,16 @@ public class EvaluationDetailsServiceImpl {
     public List<EvaluationDetailsDto> getEvaluationForUser(UserDto userDto) {
         User user = mapper.convertToUserEntity(userDto);
         List<EvaluationDetailsDto> evaluationDetailsDto = evalDetailsRepository.userEvaluations(user).stream().map(mapper::convertToEvaluationDetailsDto).collect(Collectors.toList());
-                evaluationDetailsDto.forEach(e->
-                    e.setTrainingName(trainingService.getTrainingById(e.getTrainingId()).getTrainingTitle())
-                );
+        evaluationDetailsDto.forEach(e ->
+                e.setTrainingName(trainingService.getTrainingById(e.getTrainingId()).getTrainingTitle())
+        );
 
         return evaluationDetailsDto;
+    }
+
+    public EvaluationDetailsDto getTrainingEvaluationForUser(Long userId, Long trainingId) {
+
+        return mapper.convertToEvaluationDetailsDto(quizRepositoryImpl.getTrainingEvaluationForUser(userId, trainingId));
+
     }
 }

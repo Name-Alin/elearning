@@ -15,6 +15,8 @@ public interface UserService {
 
     UserDto getUserById(Long id);
 
+    UserDto getUserByName(String name);
+
     List<UserDto> getSupervisorsNames();
 
     List<UserDto> getUsersSupervisedBy(String userName);

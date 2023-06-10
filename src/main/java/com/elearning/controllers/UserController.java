@@ -103,12 +103,22 @@ public class UserController {
 
         List<UserDto> usersSupervised = userService.getUsersSupervisedBy(httpServletRequest.getUserPrincipal().getName());
         List<EvaluationDetailsDto> evaluationDetailsDtos = new ArrayList<>();
-        usersSupervised.forEach(u-> evaluationDetailsDtos.addAll(new ArrayList<>(evaluationDetailsService.getEvaluationForUser(u))));
+        usersSupervised.forEach(u -> evaluationDetailsDtos.addAll(new ArrayList<>(evaluationDetailsService.getEvaluationForUser(u))));
 
-        model.addAttribute("supervisedUsers",usersSupervised);
-        model.addAttribute("usersEvaluations",evaluationDetailsDtos);
+        model.addAttribute("supervisedUsers", usersSupervised);
+        model.addAttribute("usersEvaluations", evaluationDetailsDtos);
 
         return "evaluation/showEvaluations";
+    }
+
+    @GetMapping("/quizResult/{id}")
+    public String quizResults(@PathVariable("id") Long trainingId, HttpServletRequest httpServletRequest, Model model) {
+        UserDto user = userService.getUserByName(httpServletRequest.getUserPrincipal().getName());
+        EvaluationDetailsDto evaluationDetails = evaluationDetailsService.getTrainingEvaluationForUser(user.getId(), trainingId);
+        model.addAttribute("user", user);
+        model.addAttribute("evaluation", evaluationDetails);
+
+        return "takingTraining/scoreboard";
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)

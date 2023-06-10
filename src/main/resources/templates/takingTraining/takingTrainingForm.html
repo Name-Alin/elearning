@@ -4,21 +4,40 @@
 >
 <head>
     <meta charset="UTF-8">
-    <title>Training CRUD</title>
+    <title>Training</title>
+
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+
+    <link rel="stylesheet" th:href="@{/styles/navbar.css}">
 </head>
 <body>
 <div>
-    <h1>Training Page</h1>
-    <a href="/">IndexPage</a>
+    <div th:replace="navbar.html :: navbar"></div>
+    <div class="main">
+        <div class="row">
+            <div class="col-md-10 offset-md-1 form-3-box text-center wow fadeInUp">
 
-<br>
-    <video width="320" height="240" controls poster="">
-        <source th:src="@{'/video_training/' + ${training.id}}" type="video/mp4" />
-    </video>
+                <div class="embed-responsive embed-responsive-16by9">
+                    <video class="embed-responsive-item" width="320" height="240" controls poster="">
+                        <source th:src="@{'/video_training/' + ${training.id}}" type="video/mp4"/>
+                    </video>
+                </div>
+                <div class="form-group row mt-5">
+                    <div class="col">
+                        <a class="" href="#"
+                           th:href="@{ '/attemptQuiz/' + ${training.id} }">
+                            <img class="img-responsive" src="/images/takeQuiz.jpg"
+                                 th:src="@{\images\takequiz.jpg}" alt="Imageeee">
+                        </a>
+                    </div>
+                </div>
 
-    <a href="#" th:href="@{ '/attemptQuiz/' + ${training.id} }">  Attempt Quiz </a>
-
-</div>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
