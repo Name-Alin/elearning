@@ -13,24 +13,25 @@
 
     <link rel="stylesheet" th:href="@{/styles/navbar.css}">
     <link rel="stylesheet" th:href="@{/styles/fieldSet.css}">
+    <link rel="stylesheet" th:href="@{/styles/quiz.css}">
 
 </head>
 <body>
 <div th:replace="navbar.html :: navbar"></div>
 <div class="main">
     <div class="row">
-        <div class="col-md-10 offset-md-1 form-3-box text-left wow fadeInUp">
+        <div class="col-md-10  form-3-box text-left wow fadeInUp">
 
             <form action="#" th:action="@{/submit}" th:object="${attemptedQuiz}" method="post">
 
                 <input type="hidden" th:field="*{id}" th:value="${attemptedQuiz.id}">
 
-                <fieldset class="form-group p-3 text-left" th:each="question, i : ${attemptedQuiz.questions}">
+                <fieldset class="ques-box bg-light text-left" th:each="question, i : ${attemptedQuiz.questions}">
 
-                    <label class="form-label"><strong th:text="${i.index + 1} + '. '  + ${question.content}"></strong></label>
+                    <p><strong th:text="${i.index + 1} + '. '  + ${question.content}"></strong></p>
 
-                    <ol type="a" class="list-group">
-                        <li th:each="answer, j : ${question.answers}">
+<!--                    <div class="ques-box list-group">-->
+                        <div class="" th:each="answer, j : ${question.answers}">
 
                             <input type="hidden" th:name="|questions[${i.index}].answers[${j.index}].id|"
                                    th:value="${answer.id}">
@@ -39,22 +40,18 @@
 
 
                             <div th:id="${question.content}">
-                                <label th:text="${answer.content}" th:for="${answer.id}"></label>
-                                <input type="checkbox"
+                                <input class=" form-check form-check-inline" type="checkbox"
                                        th:name="|questions[${i.index}].answers[${j.index}].correct|"
                                        th:id="${answer.id}"
                                        th:value="1"
                                        th:checked="false"
                                 >
+                                <p class="option" th:text="${answer.content}" th:for="${answer.id}"></p>
 
-
-                                <!--                    |questions[${i.index}].answers[${j.index}].correct|-->
-                                <!--                    *{questions[__${i.index}__].answers[__${j.index}__].correct}-->
-                                <!--                    th:field="*{questions[__${i.index}__].answers[__${j.index}__].correct}"-->
 
                             </div>
-                        </li>
-                    </ol>
+                        </div>
+<!--                    </div>-->
                     <input type="hidden" th:name="|questions[${i.index}].id|" th:value="${question.id}">
                     <input type="hidden" th:name="|questions[${i.index}].content|" th:value="${question.content}">
 
@@ -62,7 +59,7 @@
                 </fieldset>
                 <div class="form-group row">
                     <div class="col">
-                        <button class="btn btn-primary btn-customized" type="submit">Submit Answers</button>
+                        <button class="btn btn-primary btn-customized d-block mx-auto mt-4" type="submit">Submit Answers</button>
                     </div>
                 </div>
             </form>

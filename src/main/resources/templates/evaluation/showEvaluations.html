@@ -16,14 +16,13 @@
 </head>
 <body>
 <div>
-    <h1>Evaluations</h1>
-    <a href="/">IndexPage</a>
+
     <div th:replace="navbar.html :: navbar"></div>
 
     <div class="main">
 
         <div th:each="user : ${supervisedUsers}">
-            <h3 th:text="'User: ' + ${user.username}"></h3>
+            <h3 th:text="'Evaluations of user: ' + ${user.username}"></h3>
 
             <div class="table-responsive">
                 <table id="usersTable" class="table table-bordered table-striped">

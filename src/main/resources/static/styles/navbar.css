@@ -14,8 +14,8 @@
     .main {
       margin-top: 40px;
       margin-bottom: 20px;
-      margin-right: 15px;
-      margin-left: 290px; /* Same as the width of the sidebar */
+      margin-right: 25px;
+      margin-left: 40px;
       padding: 0px 10px;
       z-index: 1;
     }
@@ -33,17 +33,30 @@
     }
 
     .img-responsive{
-        width:  350px;
-        height: 350px;
+        width:  300px;
+        height: 300px;
         object-fit: cover;
     }
-    .panel-body{
-        width:  350px;
-        height: 350px;
+    .card-body{
+        width:  300px;
+        height: 300px;
+        border-width: thick;
     }
-    .panel-primary{
-         width:  350px;
-         height: 350px;
+    .card{
+         width:  345px;
+         height: 355px;
+         border-width: 3px;
+    }
+    .card-header{
+    border-width: thick;
+    }
+
+    .img-score {
+    	width: 100%;
+    	max-width: 350px;
+    	position: relative;
+    	display: block;
+    	margin: -180px auto 50px auto;
     }
 
 
