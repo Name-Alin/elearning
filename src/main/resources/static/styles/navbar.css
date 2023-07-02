@@ -14,8 +14,8 @@
     .main {
       margin-top: 40px;
       margin-bottom: 20px;
-      margin-right: 25px;
-      margin-left: 40px;
+      margin-right: 50px;
+      margin-left: 50px;
       padding: 0px 10px;
       z-index: 1;
     }
@@ -33,17 +33,18 @@
     }
 
     .img-responsive{
-        width:  300px;
-        height: 300px;
+        width:  200px;
+        height: 200px;
         object-fit: cover;
+
     }
     .card-body{
-        width:  300px;
-        height: 300px;
+        width:  245px;
+        height: 355px;
         border-width: thick;
     }
     .card{
-         width:  345px;
+         width:  245px;
          height: 355px;
          border-width: 3px;
     }
@@ -58,6 +59,9 @@
     	display: block;
     	margin: -180px auto 50px auto;
     }
-
+    .a-link {
+    display:table-cell;
+    vertical-align: bottom;
+    }
 
 

@@ -32,25 +32,35 @@
     <!--</div>-->
     <div class="main">
 
-        <div class="row">
-            <div class="col-sm-3 mt-4" th:each="training : ${trainings}">
-                <div class="card">
-                    <div class="card-body rounded-top">
-                        <a href="#" th:href="@{ '/training/' + ${training.id} }">
-                            <img class="img-responsive" src="" th:src="@{${training.pathToImage}}" alt="Image">
-                        </a>
-                    </div>
 
-                    <div class="card-header bg-primary text-center font-weight-bold rounded-bottom rounded-top">
-                        <a class="link-dark text-light" href="#" th:href="@{ '/training/' + ${training.id} }"
-                           th:text="${training.trainingTitle}"></a>
-                    </div>
-                    <!--                <div class="panel-footer">Buy 50 mobiles and get a gift card</div>-->
+            <div class="container d-flex">
+                <div class="row flex-row">
+                <div class="col-sm-3 mt-4 align-center" th:each="training : ${trainings}">
+                    <div class="card text-center" style="background-color: #EDEDED;">
+                        <div class="card-body rounded-top">
+                            <a href="#" th:href="@{ '/training/' + ${training.id} }">
+                                <img class="img-responsive rounded-circle" src="" th:src="@{${training.pathToImage}}"
+                                     alt="Image">
+                            </a>
+                            <p></p>
+                            <!--                        <div class="col border-end d-flex align-items-end align-bottom">-->
+                            <a class="btn btn-outline-primary link-dark text-light mt-5" style="background-color: #1473E6; border-radius: 20px;"
+                               href="#"
+                               th:href="@{ '/training/' + ${training.id} }"
+                               th:text="${training.trainingTitle}"></a>
+                            <!--                        </div>-->
+                        </div>
 
+                        <!--                    <div class="card-header bg-primary text-center font-weight-bold rounded-bottom rounded-top">-->
+                        <!--                        <a class="link-dark text-light" href="#" th:href="@{ '/training/' + ${training.id} }"-->
+                        <!--                           th:text="${training.trainingTitle}"></a>-->
+                        <!--                    </div>-->
+                        <!--                <div class="panel-footer">Buy 50 mobiles and get a gift card</div>-->
+
+                    </div>
                 </div>
             </div>
         </div>
-
 
     </div>
 </div>
