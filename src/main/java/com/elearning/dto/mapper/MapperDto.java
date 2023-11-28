@@ -31,6 +31,7 @@ public class MapperDto {
         if (userDto == null) {
             return null;
         }
+
         return User.builder()
                 .id(userDto.getId())
                 .password(userDto.getPassword())

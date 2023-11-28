@@ -3,7 +3,6 @@ package com.elearning.model.authentication;
 //import com.elearning.model.evaluation.EvaluationDetails;
 
 import com.elearning.model.evaluation.EvaluationDetails;
-import com.elearning.model.evaluation.Quiz;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;

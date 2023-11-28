@@ -1,10 +1,7 @@
 package com.elearning.repositories;
 
-import com.elearning.model.authentication.User;
 import com.elearning.model.evaluation.EvaluationDetails;
 import com.elearning.model.evaluation.Quiz;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;

@@ -26,7 +26,7 @@
 
                 <input type="hidden" th:field="*{id}" th:value="${attemptedQuiz.id}">
 
-                <fieldset class="ques-box bg-light text-left" th:each="question, i : ${attemptedQuiz.questions}">
+                <fieldset class="ques-box text-left" th:each="question, i : ${attemptedQuiz.questions}">
 
                     <p><strong th:text="${i.index + 1} + '. '  + ${question.content}"></strong></p>
 
